@@ -22,8 +22,6 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASS}
       - DB_NAME=${DB_NAME}
-    volumes:
-      - ./backend:/app
 
   db:
     image: postgres:14
@@ -35,4 +33,5 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./database/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+

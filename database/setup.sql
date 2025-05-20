@@ -1,9 +1,11 @@
-CREATE TABLE candidatos (
+CREATE TABLE IF NOT EXISTS usuarios (
   id SERIAL PRIMARY KEY,
   nombre TEXT NOT NULL,
-  votos INT DEFAULT 0
+  credencial TEXT DEFAULT '0'
 );
 
-INSERT INTO candidatos (nombre) VALUES
-('Candidato A'),
-('Candidato B');
+INSERT INTO usuarios (nombre, credencial) VALUES
+('Nico Bolso', 'JVV 1432'),
+('Juanchi Bolso', 'JVC 1234'),
+('Santi Bolso', 'JVC 1235');
+

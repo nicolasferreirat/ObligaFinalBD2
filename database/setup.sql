@@ -6,8 +6,28 @@ CREATE TABLE Persona (
     edad INT
 );
 
+CREATE TABLE Departamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100)
+);
+
+CREATE TABLE Zona (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    idDepartamento INT,
+    FOREIGN KEY (idDepartamento) REFERENCES Departamento(id)
+);
+
+CREATE TABLE Establecimiento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    ubicacion VARCHAR(200),
+    idZona INT,
+    FOREIGN KEY (idZona) REFERENCES Zona(id)
+);
+
 CREATE TABLE Partido_Politico (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     direccion_sede VARCHAR(200),
     presidente VARCHAR(100),
@@ -17,104 +37,86 @@ CREATE TABLE Partido_Politico (
 CREATE TABLE Candidato (
     CI VARCHAR(20),
     id_PartidoPolitico INT,
-    PRIMARY KEY (CI),
+    PRIMARY KEY (CI, id_PartidoPolitico),
     FOREIGN KEY (CI) REFERENCES Persona(CI),
     FOREIGN KEY (id_PartidoPolitico) REFERENCES Partido_Politico(id)
 );
 
-CREATE TABLE Departamento (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100)
-);
-
-CREATE TABLE Zona (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100),
-    idDepartamento INT,
-    FOREIGN KEY (idDepartamento) REFERENCES Departamento(id)
-);
-
-CREATE TABLE Establecimiento (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100),
-    ubicacion VARCHAR(255),
-    idZona INT,
-    FOREIGN KEY (idZona) REFERENCES Zona(id)
-);
 
 CREATE TABLE Agente_Policial (
     comisaria VARCHAR(100),
-    CI VARCHAR(20),
+    CI VARCHAR(20) PRIMARY KEY,
     idEstablecimiento INT,
-    PRIMARY KEY (CI),
     FOREIGN KEY (CI) REFERENCES Persona(CI),
     FOREIGN KEY (idEstablecimiento) REFERENCES Establecimiento(id)
 );
 
 CREATE TABLE Miembro_Mesa (
     organismo_trabaja VARCHAR(100),
-    CI VARCHAR(20),
-    PRIMARY KEY (CI),
+    CI VARCHAR(20) PRIMARY KEY,
     FOREIGN KEY (CI) REFERENCES Persona(CI)
 );
 
-CREATE TABLE Mesa (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    numero_mesa INT
-);
-
 CREATE TABLE Presidente_Mesa (
-    CI VARCHAR(20),
-    idMesa INT,
-    PRIMARY KEY (CI),
-    FOREIGN KEY (CI) REFERENCES Persona(CI),
-    FOREIGN KEY (idMesa) REFERENCES Mesa(id)
+    CI VARCHAR(20) PRIMARY KEY,
+    FOREIGN KEY (CI) REFERENCES Persona(CI)
 );
 
 CREATE TABLE Secretario_Mesa (
-    CI VARCHAR(20),
-    idMesa INT,
-    PRIMARY KEY (CI),
-    FOREIGN KEY (CI) REFERENCES Persona(CI),
-    FOREIGN KEY (idMesa) REFERENCES Mesa(id)
+    CI VARCHAR(20) PRIMARY KEY,
+    FOREIGN KEY (CI) REFERENCES Persona(CI)
 );
 
 CREATE TABLE Vocal_Mesa (
-    CI VARCHAR(20),
-    idMesa INT,
-    PRIMARY KEY (CI),
-    FOREIGN KEY (CI) REFERENCES Persona(CI),
-    FOREIGN KEY (idMesa) REFERENCES Mesa(id)
+    CI VARCHAR(20) PRIMARY KEY,
+    FOREIGN KEY (CI) REFERENCES Persona(CI)
 );
 
 CREATE TABLE Circuito (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     es_accesible BOOLEAN,
     idEstablecimiento INT,
-    idMesa INT,
-    FOREIGN KEY (idEstablecimiento) REFERENCES Establecimiento(id),
-    FOREIGN KEY (idMesa) REFERENCES Mesa(id)
+    FOREIGN KEY (idEstablecimiento) REFERENCES Establecimiento(id)
+);
+
+CREATE TABLE Mesa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero_mesa INT,
+    idCircuito INT,
+    CIPresidente VARCHAR(20),
+    CISecretario VARCHAR(20),
+    CIVocal VARCHAR(20),
+    FOREIGN KEY (idCircuito) REFERENCES Circuito(id),
+    FOREIGN KEY (CIPresidente) REFERENCES Presidente_Mesa(CI),
+    FOREIGN KEY (CISecretario) REFERENCES Secretario_Mesa(CI),
+    FOREIGN KEY (CIVocal) REFERENCES Vocal_Mesa(CI)
 );
 
 CREATE TABLE Credencial_Civica (
-    serie VARCHAR(10) PRIMARY KEY,
-    numero VARCHAR(10) PRIMARY KEY,
+    serie VARCHAR(10),
+    numero VARCHAR(10),
     CI VARCHAR(20),
     idCircuito INT,
     yavoto BOOLEAN,
+     PRIMARY KEY (serie, numero),
     FOREIGN KEY (CI) REFERENCES Persona(CI),
     FOREIGN KEY (idCircuito) REFERENCES Circuito(id)
 );
 
 CREATE TABLE Voto (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     fecha_emitido DATE,
     hora_emitido TIME,
     idCircuito INT,
-    idResultado INT,
-    FOREIGN KEY (idCircuito) REFERENCES Circuito(id),
-    FOREIGN KEY (idResultado) REFERENCES Resultado(id)
+    FOREIGN KEY (idCircuito) REFERENCES Circuito(id)
+);
+
+CREATE TABLE Lista (
+    numero_unico INT PRIMARY KEY,
+    imagen VARCHAR(300),
+    idPartido_Politico INT,
+    FOREIGN KEY (idPartido_Politico) REFERENCES Partido_Politico(id)
 );
 
 CREATE TABLE Es_Valido (
@@ -143,12 +145,6 @@ CREATE TABLE En_Blanco (
     FOREIGN KEY (idVoto) REFERENCES Voto(id)
 );
 
-CREATE TABLE Lista (
-    numero_unico INT PRIMARY KEY,
-    idPartido_Politico INT,
-    FOREIGN KEY (idPartido_Politico) REFERENCES Partido_Politico(id)
-);
-
 CREATE TABLE Departamental (
     numero_unicoLista INT PRIMARY KEY,
     FOREIGN KEY (numero_unicoLista) REFERENCES Lista(numero_unico)
@@ -165,7 +161,7 @@ CREATE TABLE Plebiscito (
 );
 
 CREATE TABLE Rol (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(100)
 );
 

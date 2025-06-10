@@ -31,8 +31,8 @@ app.get('/test-db', async (req, res) => {
 });
 
 // Aquí deberías importar y usar tus rutas (por ejemplo usuarios)
-const usuariosRoutes = require('./routes/usuarios');
-app.use('/', usuariosRoutes);
+const personaRoutes = require('./routes/persona');
+app.use('/', personaRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

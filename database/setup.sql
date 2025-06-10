@@ -169,10 +169,21 @@ CREATE TABLE Rol (
 CREATE TABLE Rol_Lista_Candidato (
     numero_orden INT,
     idLista INT,
-    idCandidato INT,
+    idCandidato VARCHAR(20),
     idRol INT,     
     PRIMARY KEY (idLista, idCandidato),
     FOREIGN KEY (idLista) REFERENCES Lista(numero_unico),
     FOREIGN KEY (idCandidato) REFERENCES Candidato(CI),
     FOREIGN KEY (idRol) REFERENCES Rol(id)
 );
+
+
+INSERT INTO Persona (CI, nombre, apellido, edad) VALUES
+('34523125', 'Emiliano', 'Ancheta', 35),
+('31243774', 'Juan', 'Sosa Dias', 42),
+('54365042', 'Nicolas', 'Ferreira', 29),
+('51526653', 'Luis', 'Mejia', 50),
+('54634794', 'Cristian', 'Oliva', 54),
+('54946369', 'Nicolás', 'López', 19),
+('48639847', 'Fernando', 'Luna', 18),
+('27511204', 'Sofía', 'Martínez', 21);

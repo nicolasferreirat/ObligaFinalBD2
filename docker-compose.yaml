@@ -15,23 +15,9 @@ services:  # Define los contenedores que forman parte de esta aplicación.
     build: ./backend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./backend.
     ports:
       - "${PORT}:4000"  # Expone el puerto 4000 del contenedor en el puerto definido en la variable PORT en tu .env.
-    depends_on:
-      - db  # Este servicio depende del servicio de base de datos (db), por lo tanto se inicia después de db.
     environment:  # Variables de entorno que el backend necesita para conectarse a la base de datos.
       - DB_HOST=${DB_HOST}  # Dirección del host de la base de datos.
       - DB_PORT=${DB_PORT}  # Puerto de la base de datos.
       - DB_USER=${DB_USER}  # Usuario de la base de datos.
-      - DB_PASSWORD=${DB_PASS}  # Contraseña del usuario de la base de datos.
+      - DB_PASSWORD=${DB_PASSWORD}  # Contraseña del usuario de la base de datos.
       - DB_NAME=${DB_NAME}  # Nombre de la base de datos.
-
-  db:  # Nombre del servicio para la base de datos PostgreSQL.
-    image: postgres:14  # Utiliza la imagen oficial de PostgreSQL, versión 14.
-    restart: always  # Configura el contenedor para que siempre se reinicie si se cae o se reinicia Docker.
-    ports:
-      - "5432:5432"  # Expone el puerto 5432 del contenedor (puerto por defecto de PostgreSQL) al host.
-    environment:  # Variables de entorno usadas por PostgreSQL al inicializar la base de datos.
-      - POSTGRES_DB=${POSTGRES_DB}  # Nombre de la base de datos a crear.
-      - POSTGRES_USER=${POSTGRES_USER}  # Usuario por defecto de la base de datos.
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  # Contraseña del usuario por defecto.
-    volumes:
-      - ./database/setup.sql:/docker-entrypoint-initdb.d/setup.sql  # Monta un script SQL para que se ejecute al iniciar la base de datos por primera vez.

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database');
 
-// GET /usuarios → lista todas las personas
+// GET /usuarios → lista todas las personas   //Decía persona, lo cambie a usuarios, ahora funciona correctamente
 router.get('/', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM Persona');

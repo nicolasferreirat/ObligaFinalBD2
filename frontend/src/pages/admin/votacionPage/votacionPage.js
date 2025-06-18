@@ -28,7 +28,7 @@ function VotacionPage() {
     const idCircuito = localStorage.getItem('idCircuito');
 
     if (!token || !idCircuito) {
-      navigate('/');
+      navigate('/admin/login');
       return;
     }
 

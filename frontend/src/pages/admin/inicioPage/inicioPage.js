@@ -18,7 +18,7 @@ function InicioPage() {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        navigate('/');
+        navigate('/admin/login');
         return;
       }
 

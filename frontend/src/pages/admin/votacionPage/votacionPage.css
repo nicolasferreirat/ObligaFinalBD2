@@ -1,0 +1,143 @@
+.votacion-wrapper {
+  padding: 40px 20px;
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Encabezado igual a login-header */
+.votacion-header {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Contenido dentro del header */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  width: 100%;
+}
+
+.logo {
+  height: 40px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.votacion-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #333;
+  padding-left: 60px; 
+}
+
+.votacion-wrapper h2 {
+  font-size: 22px;
+  color: #444;
+  margin-top: 120px;
+  margin-bottom: 10px;
+}
+
+.votacion-wrapper p {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #666;
+}
+
+.lista-personas {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lista-personas li {
+  background: white;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+/* Botón Terminar Votación */
+.btn-terminar {
+  margin-top: 40px;
+  padding: 16px 36px;
+  font-size: 18px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-terminar:hover {
+  background-color: #bb2d3b;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 320px;
+}
+
+.modal button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal button.confirmar {
+  background-color: #198754;
+  color: white;
+}
+
+.modal button.confirmar:hover {
+  background-color: #157347;
+}
+
+.modal button.cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal button.cancelar:hover {
+  background-color: #bb2d3b;
+}

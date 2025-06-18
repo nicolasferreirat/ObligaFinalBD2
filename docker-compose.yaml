@@ -3,6 +3,7 @@ version: '3.8'  # Especifica la versión de Docker Compose a usar. La 3.8 es com
 services:  # Define los contenedores que forman parte de esta aplicación.
 
   frontend:  # Nombre del servicio para la aplicación frontend (React).
+    container_name: frontend  # Nombre fijo del contenedor (en vez de generarse como frontend-1, etc.)
     build: ./frontend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./frontend.
     ports:
       - "${FRONTEND_PORT}:3000"  # Expone el puerto 3000 del contenedor en el puerto definido en la variable FRONTEND_PORT en tu .env.
@@ -10,11 +11,17 @@ services:  # Define los contenedores que forman parte de esta aplicación.
       - backend  # Este servicio depende del backend, por lo tanto se iniciará después de que backend esté listo.
     environment:
       - CHOKIDAR_USEPOLLING=true  # Variable de entorno que activa el modo polling en Chokidar (útil para entornos como Docker donde watch no funciona bien).
+    volumes:
+      - ./frontend:/app           # Monta el código fuente local
+      - /app/node_modules         # Ignora node_modules del host para evitar conflictos de dependencias
 
   backend:  # Nombre del servicio para la aplicación backend (Node.js, por ejemplo).
+    container_name: backend  # Nombre fijo del contenedor
     build: ./backend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./backend.
     ports:
       - "${PORT}:4000"  # Expone el puerto 4000 del contenedor en el puerto definido en la variable PORT en tu .env.
+    env_file:
+      - .env  # Carga las variables de entorno desde el archivo .env en la raíz del proyecto.
     environment:  # Variables de entorno que el backend necesita para conectarse a la base de datos.
       - DB_HOST=${DB_HOST}  # Dirección del host de la base de datos.
       - DB_PORT=${DB_PORT}  # Puerto de la base de datos.

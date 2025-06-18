@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './loginPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -8,7 +9,7 @@ function LoginPage() {
   const [ci, setCi] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensaje('');
@@ -27,9 +28,10 @@ function LoginPage() {
 
       if (res.ok) {
         setMensaje(`Bienvenido presidente CI: ${data.ci}`);
-        // Podés guardar en localStorage o redirigir a otra ruta
-        localStorage.setItem('ci', data.ci);
-        //navigate('/admin/panel');
+        if (res.ok) {
+          localStorage.setItem('token', data.token); // Guardamos el token JWT
+          navigate('/admin/inicio');
+        }
       } else {
         setError(data.mensaje);
       }
@@ -43,11 +45,11 @@ function LoginPage() {
   return (
   <div className="login-wrapper">
     <header className="login-header">
-  <div className="header-content">
-    <img src={logo} alt="Logo" className="logo" />
-    <h1>Elecciones Presidenciales 2024</h1>
-  </div>
-</header>
+      <div className="header-content">
+        <img src={logo} alt="Logo" className="logo" />
+        <h1>Elecciones Presidenciales 2024</h1>
+      </div>
+    </header>
 
 
     <div className="login-box">

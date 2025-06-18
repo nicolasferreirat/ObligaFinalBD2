@@ -20,6 +20,8 @@ services:  # Define los contenedores que forman parte de esta aplicación.
     build: ./backend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./backend.
     ports:
       - "${PORT}:4000"  # Expone el puerto 4000 del contenedor en el puerto definido en la variable PORT en tu .env.
+    env_file:
+      - .env  # Carga las variables de entorno desde el archivo .env en la raíz del proyecto.
     environment:  # Variables de entorno que el backend necesita para conectarse a la base de datos.
       - DB_HOST=${DB_HOST}  # Dirección del host de la base de datos.
       - DB_PORT=${DB_PORT}  # Puerto de la base de datos.

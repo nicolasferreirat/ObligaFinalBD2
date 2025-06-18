@@ -55,11 +55,14 @@ router.get('/admin/inicio', verificarToken, async (req, res) => {
       `SELECT
         M.numero_mesa,
         M.idCircuito,
-        E.nombre AS nombreEstablecimiento
-       FROM Mesa M
-       JOIN Circuito C ON M.idCircuito = C.id
-       JOIN Establecimiento E ON C.idEstablecimiento = E.id
-       WHERE M.CIPresidente = ?`,
+        E.nombre AS nombreEstablecimiento,
+        D.nombre AS nombreDepartamento
+      FROM Mesa M
+      JOIN Circuito C ON M.idCircuito = C.id
+      JOIN Establecimiento E ON C.idEstablecimiento = E.id
+      JOIN Zona Z ON E.idZona = Z.id
+      JOIN Departamento D ON Z.idDepartamento = D.id
+      WHERE M.CIPresidente = ?`,
       [ci]
     );
 
@@ -72,7 +75,8 @@ router.get('/admin/inicio', verificarToken, async (req, res) => {
       usuario: ci,
       numeroMesa: rows[0].numero_mesa,
       idCircuito: rows[0].idCircuito,
-      establecimiento: rows[0].nombreEstablecimiento
+      establecimiento: rows[0].nombreEstablecimiento,
+      departamento: rows[0].nombreDepartamento
     });
   } catch (error) {
     console.error('Error al obtener datos del presidente:', error);

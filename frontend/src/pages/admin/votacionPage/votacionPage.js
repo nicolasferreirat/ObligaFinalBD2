@@ -75,8 +75,12 @@ function VotacionPage() {
         </div>
       </header>
 
-      <h2>Personas habilitadas a votar en este Circuito</h2>
-      <h4>Hora actual (Uruguay): {horaActual}</h4>
+      <div className="contenedor-hora-titulo">
+        <span className="hora">{horaActual}</span>
+        <h2 className="titulo-votacion">Personas habilitadas a votar en este Circuito</h2>
+      </div>
+
+
 
       {credenciales.length === 0 ? (
         <p>Cargando credenciales...</p>

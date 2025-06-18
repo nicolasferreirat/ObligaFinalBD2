@@ -41,13 +41,15 @@ function InicioPage() {
           ci: data.usuario,
           numeroMesa: data.numeroMesa,
           idCircuito: data.idCircuito,
-          establecimiento: data.establecimiento
+          establecimiento: data.establecimiento,
+          departamento: data.departamento
         });
 
         // Guardamos los datos en localstorage para usarlos en VotacionPage
         localStorage.setItem('ci', data.usuario);
         localStorage.setItem('numeroMesa', data.numeroMesa);
         localStorage.setItem('idCircuito', data.idCircuito);
+        localStorage.setItem('departamento', data.departamento);
 
       } catch (err) {
         console.error('Error al verificar token:', err);
@@ -86,13 +88,13 @@ function InicioPage() {
 
       <h2 className="subtitulo">Bienvenido presidente CI: {datosPresidente.ci}</h2>
 
-      <h3 className="mesa-info">
-        Mesa N°{datosPresidente.numeroMesa} ~ Circuito N°{datosPresidente.idCircuito}
-      </h3>
-
-      <h3 className="mesa-info">
-        Establecimiento: {datosPresidente.establecimiento}
-      </h3>
+      <div className="info-box">
+         <p><strong>DATOS</strong></p>
+        <p><strong>Mesa N°</strong> {datosPresidente.numeroMesa} </p>
+        <p><strong>Circuito N°</strong> {datosPresidente.idCircuito}</p>
+        <p><strong>Establecimiento:</strong> {datosPresidente.establecimiento}</p>
+        <p><strong>Departamento:</strong> {datosPresidente.departamento}</p>
+      </div>
 
       <h3 className="bienvenida">
         Haga Click en el botón "Habilitar Mesa" para comenzar la votación en el Circuito.

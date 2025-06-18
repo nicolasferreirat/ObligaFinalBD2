@@ -46,13 +46,33 @@
   padding-left: 60px; 
 }
 
-.votacion-wrapper h2 {
-  font-size: 22px;
-  color: #444;
+/* NUEVO: contenedor para hora + título */
+.contenedor-hora-titulo {
   margin-top: 120px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
 }
 
+/* Hora alineada a la izquierda del cuerpo */
+.hora {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Título centrado en el cuerpo */
+.titulo-votacion {
+  font-size: 22px;
+  color: #444;
+  text-align: center;
+  margin-top: 0;
+}
+
+/* Lista */
 .votacion-wrapper p {
   margin-bottom: 30px;
   font-size: 16px;

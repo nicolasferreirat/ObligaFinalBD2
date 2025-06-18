@@ -54,7 +54,7 @@ function LoginPage() {
 
     <div className="login-box">
       <h2>Administrador</h2>
-      <p className="subtitulo">Ingrese su cédula para Ingresar:</p>
+      <p className="subtitulo">Ingrese su cédula para Continuar:</p>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="ci">Cédula:</label>
@@ -64,6 +64,7 @@ function LoginPage() {
           placeholder="Ej: 45678901"
           value={ci}
           onChange={(e) => setCi(e.target.value)}
+          maxLength={8}
         />
         <button type="submit">Ingresar</button>
       </form>

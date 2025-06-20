@@ -7,6 +7,8 @@ function InicioPage() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [datosPresidente, setDatosPresidente] = useState({
     ci: '',
+    nombre: '',
+    apellido: '',
     numeroMesa: '',
     idCircuito: '',
     establecimiento: ''
@@ -39,6 +41,8 @@ function InicioPage() {
 
         setDatosPresidente({
           ci: data.usuario,
+          nombre: data.nombre,
+          apellido: data.apellido,
           numeroMesa: data.numeroMesa,
           idCircuito: data.idCircuito,
           establecimiento: data.establecimiento,
@@ -47,6 +51,9 @@ function InicioPage() {
 
         // Guardamos los datos en localstorage para usarlos en VotacionPage
         localStorage.setItem('ci', data.usuario);
+        localStorage.setItem('establecimiento', data.establecimiento);
+        localStorage.setItem('nombre', data.nombre);
+        localStorage.setItem('apellido', data.apellido);
         localStorage.setItem('numeroMesa', data.numeroMesa);
         localStorage.setItem('idCircuito', data.idCircuito);
         localStorage.setItem('departamento', data.departamento);
@@ -62,7 +69,6 @@ function InicioPage() {
   }, [navigate]);
 
   const confirmarHabilitacion = () => { 
-    alert("Mesa habilitada con éxito");
     setMostrarModal(false);
     navigate('/admin/elecciones');  
   };
@@ -70,6 +76,10 @@ function InicioPage() {
   const salir = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('ci');
+    localStorage.removeItem('establecimiento');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('apellido');
+    localStorage.removeItem('departamento');
     localStorage.removeItem('numeroMesa');
     localStorage.removeItem('idCircuito');
     navigate('/admin/login');
@@ -86,7 +96,7 @@ function InicioPage() {
       </header>
 
 
-      <h2 className="subtitulo">Bienvenido presidente CI: {datosPresidente.ci}</h2>
+      <h2 className="subtitulo"> Bienvenido presidente {datosPresidente.nombre} {datosPresidente.apellido}</h2>
 
       <div className="info-box">
          <p><strong>DATOS</strong></p>

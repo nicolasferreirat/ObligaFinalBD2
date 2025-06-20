@@ -61,7 +61,6 @@ function VotacionPage() {
   }, []);
 
   const confirmarCierre = () => {
-    alert('La votación ha sido finalizada.');
     setMostrarModal(false);
     navigate('/admin/resultados');
   };
@@ -88,7 +87,10 @@ function VotacionPage() {
         <ul className="lista-personas">
           {credenciales.map((c, i) => (
             <li key={i}>
-              Serie: {c.serie} / Número: {c.numero}
+              <div className="fila-persona">
+                <span className="campo-credencial">{c.serie} {c.numero}</span>
+                <span className="campo-nombre">{c.nombre} {c.apellido}</span>
+              </div>
             </li>
           ))}
         </ul>

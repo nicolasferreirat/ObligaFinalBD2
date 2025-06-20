@@ -30,9 +30,9 @@ app.get('/test-db', async (req, res) => {
   }
 });
 
-// Aquí deberías importar y usar tus rutas (por ejemplo votos)
-const votosRoutes = require('./routes/Votos');
-app.use('/', votosRoutes);
+// Aquí deberías importar y usar tus rutas (por ejemplo usuarios)
+const personaRoutes = require('./routes/persona');
+app.use('/', personaRoutes);
 
 const listasRoutes = require('./routes/listas'); // 👈 agregar arriba
 

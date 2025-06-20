@@ -1,38 +1,23 @@
-version: '3.8'
+version: '3.8'  # Especifica la versión de Docker Compose a usar. La 3.8 es compatible con Docker 18.06 en adelante.
 
-services:
-  frontend:
-    build: ./frontend
+services:  # Define los contenedores que forman parte de esta aplicación.
+
+  frontend:  # Nombre del servicio para la aplicación frontend (React).
+    build: ./frontend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./frontend.
     ports:
-      - "${FRONTEND_PORT}:3000"
+      - "${FRONTEND_PORT}:3000"  # Expone el puerto 3000 del contenedor en el puerto definido en la variable FRONTEND_PORT en tu .env.
     depends_on:
-      - backend
+      - backend  # Este servicio depende del backend, por lo tanto se iniciará después de que backend esté listo.
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_USEPOLLING=true  # Variable de entorno que activa el modo polling en Chokidar (útil para entornos como Docker donde watch no funciona bien).
 
-  backend:
-    build: ./backend
+  backend:  # Nombre del servicio para la aplicación backend (Node.js, por ejemplo).
+    build: ./backend  # Construye la imagen desde el Dockerfile ubicado en la carpeta ./backend.
     ports:
-      - "${PORT}:4000"
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASS}
-      - DB_NAME=${DB_NAME}
-    volumes:
-      - ./backend:/app
-
-  db:
-    image: postgres:14
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - ./db/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - "${PORT}:4000"  # Expone el puerto 4000 del contenedor en el puerto definido en la variable PORT en tu .env.
+    environment:  # Variables de entorno que el backend necesita para conectarse a la base de datos.
+      - DB_HOST=${DB_HOST}  # Dirección del host de la base de datos.
+      - DB_PORT=${DB_PORT}  # Puerto de la base de datos.
+      - DB_USER=${DB_USER}  # Usuario de la base de datos.
+      - DB_PASSWORD=${DB_PASSWORD}  # Contraseña del usuario de la base de datos.
+      - DB_NAME=${DB_NAME}  # Nombre de la base de datos.

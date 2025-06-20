@@ -1,19 +1,19 @@
 # Usamos la imagen oficial de Node.js como base
-FROM node:18
+FROM node:18-alpine
 
-# Crear el directorio de la app dentro del contenedor
+# Crea el directorio de la app dentro del contenedor
 WORKDIR /app
 
-# Copiar package.json y package-lock.json (aún no los tienes, pero lo dejamos preparado)
+# Copia package.json y package-lock.json 
 COPY package*.json ./
 
-# Instalar dependencias (aún no tienes, se saltará si no hay)
+# Instalar dependencias 
 RUN npm install
 
-# Copiar el resto de archivos de la app
+# Copia el resto de archivos de la app
 COPY . .
 
-# Exponer el puerto 4000 (o el que uses)
+# Exponer el puerto 4000 
 EXPOSE 4000
 
 # Comando por defecto para correr la app

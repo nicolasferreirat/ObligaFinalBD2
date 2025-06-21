@@ -24,6 +24,7 @@ app.get('/test-db', async (req, res) => {
 // Rutas
 app.use('/', require('./routes/persona'));
 app.use('/', require('./routes/admin')); 
+app.use('/', require('./routes/votante'));
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

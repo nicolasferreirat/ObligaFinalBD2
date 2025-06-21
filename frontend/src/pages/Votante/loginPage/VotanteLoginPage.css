@@ -1,0 +1,129 @@
+/* Fondo y fuente general */
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0f0ff; 
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 100px; 
+  box-sizing: border-box;
+}
+
+/* Encabezado blanco fijo */
+.login-header {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Contenido dentro del header */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+}
+
+.logo {
+  height: 40px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.login-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #333;
+  padding-left: 60px; 
+}
+
+/* Caja del formulario */
+.login-box {
+  background-color: white;
+  padding: 50px 40px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #222;
+}
+
+.subtitulo {
+  margin-bottom: 20px;
+  color: #555;
+  font-size: 15px;
+}
+
+/* Etiquetas */
+.login-box label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Campo de entrada */
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.login-box input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Botón */
+.login-box button {
+  width: auto;
+  min-width: 150px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto 0 auto; 
+}
+
+
+
+.login-box button:hover {
+  background-color: #0b5ed7;
+}
+
+/* Mensajes */
+.mensaje {
+  color: green;
+  margin-top: 10px;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
+}

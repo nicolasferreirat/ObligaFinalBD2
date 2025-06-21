@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VotanteLoginPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
-import Modal from './Modal'; // Importamos el nuevo componente Modal
+import Modal from './Modal'; 
 
 function VotanteLoginPage() {
   const [serie, setSerie] = useState('');

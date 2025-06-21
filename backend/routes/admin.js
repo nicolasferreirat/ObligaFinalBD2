@@ -28,13 +28,16 @@ router.post('/admin/login', async (req, res) => {
 });
 
 // GET /admin/elecciones protegida con JWT 
-//Usamos esta ruta para traer las credenciales asignadas al circuito del presidente
+//Usamos esta ruta para traer las credenciales asignadas al circuito del presidente y los nombres de las personas
 router.get('/credencialesAsignadasCircuito/:idCircuito', verificarToken, async (req, res) => {
   const { idCircuito } = req.params;
 
   try {
     const [rows] = await pool.query(
-      `SELECT serie, numero FROM Credencial_Civica WHERE idCircuito = ?`,
+      `SELECT cc.serie, cc.numero, p.nombre, p.apellido
+       FROM Credencial_Civica cc
+       JOIN Persona p ON cc.CI = p.CI
+       WHERE cc.idCircuito = ?`,
       [idCircuito]
     );
 
@@ -45,7 +48,6 @@ router.get('/credencialesAsignadasCircuito/:idCircuito', verificarToken, async (
   }
 });
 
-
 // GET /admin/inicio protegida con JWT
 router.get('/admin/inicio', verificarToken, async (req, res) => {
   const { ci } = req.user;
@@ -55,13 +57,20 @@ router.get('/admin/inicio', verificarToken, async (req, res) => {
       `SELECT
         M.numero_mesa,
         M.idCircuito,
-        E.nombre AS nombreEstablecimiento
-       FROM Mesa M
-       JOIN Circuito C ON M.idCircuito = C.id
-       JOIN Establecimiento E ON C.idEstablecimiento = E.id
-       WHERE M.CIPresidente = ?`,
+        E.nombre AS nombreEstablecimiento,
+        D.nombre AS nombreDepartamento,
+        P.nombre,
+        P.apellido
+      FROM Mesa M
+      JOIN Circuito C ON M.idCircuito = C.id
+      JOIN Establecimiento E ON C.idEstablecimiento = E.id
+      JOIN Zona Z ON E.idZona = Z.id
+      JOIN Departamento D ON Z.idDepartamento = D.id
+      JOIN Persona P ON M.CIPresidente = P.CI
+      WHERE M.CIPresidente = ?`,
       [ci]
     );
+
 
     if (rows.length === 0) {
       return res.status(404).json({ ok: false, mensaje: 'No se encontró la mesa del presidente' });
@@ -70,9 +79,12 @@ router.get('/admin/inicio', verificarToken, async (req, res) => {
     res.json({
       ok: true,
       usuario: ci,
+      nombre: rows[0].nombre,
+      apellido: rows[0].apellido,
       numeroMesa: rows[0].numero_mesa,
       idCircuito: rows[0].idCircuito,
-      establecimiento: rows[0].nombreEstablecimiento
+      establecimiento: rows[0].nombreEstablecimiento,
+      departamento: rows[0].nombreDepartamento
     });
   } catch (error) {
     console.error('Error al obtener datos del presidente:', error);

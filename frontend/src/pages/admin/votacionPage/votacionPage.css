@@ -7,7 +7,6 @@
   box-sizing: border-box;
 }
 
-/* Encabezado igual a login-header */
 .votacion-header {
   width: 100%;
   background-color: #ffffff;
@@ -21,7 +20,6 @@
   z-index: 1000;
 }
 
-/* Contenido dentro del header */
 .header-content {
   display: flex;
   align-items: center;
@@ -46,11 +44,27 @@
   padding-left: 60px; 
 }
 
-.votacion-wrapper h2 {
+.contenedor-hora-titulo {
+  margin-top: 120px;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.hora {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.titulo-votacion {
   font-size: 22px;
   color: #444;
-  margin-top: 120px;
-  margin-bottom: 10px;
+  text-align: center;
+  margin-top: 0;
 }
 
 .votacion-wrapper p {
@@ -72,10 +86,26 @@
   margin-bottom: 8px;
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* NUEVO: alineación horizontal de campos */
+.fila-persona {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.campo-credencial {
+  width: 40%;
+  font-weight: bold;
   text-align: left;
 }
 
-/* Botón Terminar Votación */
+.campo-nombre {
+  width: 60%;
+  text-align: left;
+}
+
 .btn-terminar {
   margin-top: 40px;
   padding: 16px 36px;
@@ -91,7 +121,6 @@
   background-color: #bb2d3b;
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;

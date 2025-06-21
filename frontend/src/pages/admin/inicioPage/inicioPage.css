@@ -161,3 +161,23 @@
 .modal button.cancelar:hover {
   background-color: #bb2d3b;
 }
+
+.info-box {
+  background-color: #ffffff;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 20px 30px;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 18px;
+  max-width: 600px;
+  width: 100%;
+  text-align: left;       
+  margin-left: auto;        
+  margin-right: auto;
+}
+
+.info-box p {
+  margin: 10px 0;
+  color: #333;
+}

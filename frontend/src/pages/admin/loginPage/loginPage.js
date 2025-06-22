@@ -10,6 +10,7 @@ function LoginPage() {
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensaje('');

@@ -34,6 +34,13 @@ function VotanteLoginPage() {
       if (res.ok) {
         setMensaje(data.mensaje);
         localStorage.setItem('token', data.token);
+
+        //Verificamos si ya votó:
+        if(data.yavoto === 1) {
+          setError('Ya has emitido tu voto.');
+          return; //No continúa a votacionPage
+        }
+
         navigate('/votacionPage');
       } else {
         setError(data.mensaje);
@@ -56,7 +63,8 @@ function VotanteLoginPage() {
 
       <Modal isOpen={modalVisible} onClose={closeModal}>
         <h2>Información</h2>
-        <p>Te encuentras a punto de votar en un nuevo acto electoral de Uruguay.</p>
+        <p>Bienvenido al sistema de votación electrónica.
+A continuación, podrás emitir tu voto de forma segura y confidencial. Te recordamos que este proceso es único y no puede repetirse.</p>
       </Modal>
 
       <div className="login-box">

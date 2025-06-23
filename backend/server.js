@@ -34,10 +34,9 @@ app.get('/test-db', async (req, res) => {
 const personaRoutes = require('./routes/persona');
 app.use('/', personaRoutes);
 
-const listasRoutes = require('./routes/listas'); // 👈 agregar arriba
+app.use('/',require('./routes/listas')); 
 
-app.use(listasRoutes); // 👈 agregar debajo de app.use(express.json())
-
+app.use('/',require('./routes/partidos')); 
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

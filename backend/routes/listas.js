@@ -1,38 +1,47 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../database'); 
-// GET /api/listas
-router.get('/', async (req, res) => {
+const pool = require('../database'); // conexión a MySQL
+
+// GET /listas → devuelve todas las listas con el nombre del partido
+router.get('/listas', async (req, res) => {
   try {
-    const listas = await pool.query(`
+    const [rows] = await pool.query(`
       SELECT 
-        l.id,
         l.numero_unico AS numberlist,
         l.imagen AS photocandidate,
-        p.nombre AS namecandidate
-      FROM lista l
-      JOIN partido p ON l.idPartido_Politico = p.id
+        p.nombre AS namepartido
+      FROM Lista l
+      JOIN Partido_Politico p ON l.idPartido_Politico = p.id
     `);
 
-    const integrantesRaw = await pool.query(`
-      SELECT rl.idLista, c.nombre
-      FROM rol_lista_candidato rl
-      JOIN candidato c ON rl.idCandidato = c.idCandidato
-      ORDER BY rl.numero_orden ASC
-    `);
-
-    const listasConIntegrantes = listas.rows.map(lista => ({
-      ...lista,
-      integrantes: integrantesRaw.rows
-        .filter(i => i.idlista === lista.id)
-        .map(i => i.nombre)
-    }));
-
-    res.json(listasConIntegrantes);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error al obtener las listas" });
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener listas:', error);
+    res.status(500).json({ error: 'Error al obtener listas' });
   }
 });
+
+// GET /listas/partido/:id → devuelve solo las listas de un partido específico
+router.get('/listas/partido/:id', async (req, res) => {
+    const partidoId = req.params.id;
+  
+    try {
+      const [rows] = await pool.query(`
+        SELECT 
+          l.numero_unico AS numberlist,
+          l.imagen AS photocandidate,
+          p.nombre AS namepartido
+        FROM Lista l
+        JOIN Partido_Politico p ON l.idPartido_Politico = p.id
+        WHERE l.idPartido_Politico = ?
+      `, [partidoId]);
+  
+      res.json(rows);
+    } catch (error) {
+      console.error('Error al obtener listas por partido:', error);
+      res.status(500).json({ error: 'Error al obtener listas por partido' });
+    }
+  });
+  
 
 module.exports = router;

@@ -1,103 +1,47 @@
-import logo from './assets/CortElecLOGO.png';
+import { useEffect, useState } from "react";
 import './App.css';
 import Card from "./Components/Card";
-
-
-const dummyData = [
-  {
-    id: 1,
-    namecandidate: "Lista Renovación Federal",
-    photocandidate: "https://noticias.vtv.com.uy/wp-content/uploads/sites/2/2024/02/image_123650291.jpg",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001"
-  },
-  {
-    id: 2,
-    namecandidate: "Partido Progreso Nacional",
-    photocandidate: "https://noticias.vtv.com.uy/wp-content/uploads/sites/2/2024/02/image_123650291.jpg",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001"
-  },
-  {
-    id: 3,
-    namecandidate: "Frente Ciudadano Unido",
-    photocandidate: "https://noticias.vtv.com.uy/wp-content/uploads/sites/2/2024/02/image_123650291.jpg",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001"
-  },
-  {
-    id: 4,
-    namecandidate: "Movimiento Popular Auténtico",
-    photocandidate: "https://noticias.vtv.com.uy/wp-content/uploads/sites/2/2024/02/image_123650291.jpg",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001"
-  },
-  {
-    id: 5,
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    namecandidate: "Coalición Nacional Verde",
-    numberlist: "91001",
-    photocandidate: "https://media.elobservador.com.uy/p/efa99068122c75d5ff449eec26ba9ddc/adjuntos/362/imagenes/100/497/0100497151/1200x675/smart/andres-ojeda-pre-candidato-partido-colorado-elecciones-2024.jpg",
-  },
-  {
-    id: 6,
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    namecandidate: "Fuerza Democrática del Pueblo",
-    numberlist: "91001",
-    photocandidate: "https://media.elobservador.com.uy/p/efa99068122c75d5ff449eec26ba9ddc/adjuntos/362/imagenes/100/497/0100497151/1200x675/smart/andres-ojeda-pre-candidato-partido-colorado-elecciones-2024.jpg",
-  },
-  {
-    id: 7,
-    namecandidate: "Partido Justicia Libre",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://media.elobservador.com.uy/p/efa99068122c75d5ff449eec26ba9ddc/adjuntos/362/imagenes/100/497/0100497151/1200x675/smart/andres-ojeda-pre-candidato-partido-colorado-elecciones-2024.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://media.elobservador.com.uy/p/efa99068122c75d5ff449eec26ba9ddc/adjuntos/362/imagenes/100/497/0100497151/1200x675/smart/andres-ojeda-pre-candidato-partido-colorado-elecciones-2024.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://i.ytimg.com/vi/S7ya4lP9nhE/maxresdefault.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    numberlist: "91001",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    photocandidate: "https://i.ytimg.com/vi/S7ya4lP9nhE/maxresdefault.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://i.ytimg.com/vi/S7ya4lP9nhE/maxresdefault.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://i.ytimg.com/vi/S7ya4lP9nhE/maxresdefault.jpg",
-  },
-  {
-    id: 8,
-    namecandidate: "Unión Patriótica Nacional",
-    integrantes: ["Juan Pérez", "Ana Gómez", "Luis Rodríguez"],
-    numberlist: "91001",
-    photocandidate: "https://i.ytimg.com/vi/S7ya4lP9nhE/maxresdefault.jpg",
-  },
-];
+import logo from './assets/CortElecLOGO.png';
 
 function App() {
+  const [listas, setListas] = useState([]);
+  const [partidos, setPartidos] = useState([]);
+  const [partidoSeleccionado, setPartidoSeleccionado] = useState("todos");
+
+  // Cargar partidos políticos
+  useEffect(() => {
+    const fetchPartidos = async () => {
+      try {
+        const res = await fetch('http://localhost:4000/partidos');
+        const data = await res.json();
+        setPartidos(data);
+      } catch (error) {
+        console.error("Error al traer partidos:", error);
+      }
+    };
+
+    fetchPartidos();
+  }, []);
+
+  // Cargar listas (todas o por partido)
+  useEffect(() => {
+    const fetchListas = async () => {
+      try {
+        const url = partidoSeleccionado === "todos"
+          ? 'http://localhost:4000/listas'
+          : `http://localhost:4000/listas/partido/${partidoSeleccionado}`;
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        setListas(data);
+      } catch (error) {
+        console.error("Error al traer las listas:", error);
+      }
+    };
+
+    fetchListas();
+  }, [partidoSeleccionado]);
+
   const handleVoteClick = (id) => {
     console.log("Votaste por:", id);
   };
@@ -105,22 +49,38 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div>
-          <p>ELECCIONES &nbsp; 2025</p>
+        <img src={logo} alt="Logo" style={{ height: '80px', marginRight: 'auto' }} />
+        <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+          <p>ELECCIONES 2025</p>
           <p>¿A QUIÉN VAS A VOTAR?</p>
         </div>
       </header>
 
+     
+      {/* Selector fuera y separado visualmente */}
+      <div className="selector-container">
+        <label htmlFor="partido-select">Filtrar por partido:</label>
+        <select
+          id="partido-select"
+          onChange={(e) => setPartidoSeleccionado(e.target.value)}
+        >
+          <option value="todos">Todos</option>
+          {partidos.map((p) => (
+            <option key={p.id} value={p.id}>{p.nombre}</option>
+          ))}
+        </select>
+      </div>
+
       <div className="cards-container">
-        {dummyData.map((item) => (
+        {listas.map((item, index) => (
           <Card
-            key={item.id}
-            integrantes={item.integrantes}
-            mode="light"
+            key={index}
+            integrantes={["Juan Pérez", "Ana Gómez", "Luis Rodríguez"]} // Hardcodeado por ahora
+            mode="dark"
             photocandidate={item.photocandidate}
-            namecandidate={item.namecandidate}
-            onClick={() => handleVoteClick(item.id)}
+            namecandidate={item.namepartido}
             numberlist={item.numberlist}
+            onClick={() => handleVoteClick(item.numberlist)}
           />
         ))}
       </div>

@@ -16,16 +16,25 @@ const Card = ({ mode, photocandidate, namecandidate, integrantes, onClick, numbe
           <div
             className={classes.DivImg}
             style={{ backgroundImage: `url(${photocandidate})` }}
-          ></div>
+          >
+            <button className={classes.VoteButtonTopRight} onClick={onClick}>
+              VOTAR
+            </button>
+          </div>
+
           <div className={classes.CardContent}>
             <h6 className={currentClasses.namecandidate}>
               {truncateText(namecandidate, 40)}
             </h6>
-            <div className={classes.ButtonGroup}>
-              <button className={classes.ActionButton} onClick={onClick}>VOTAR</button>
-              <button className={classes.ActionButton} onClick={() => setMostrarIntegrantes(true)}>INTEGRANTES</button>
-            </div>
+
             <p className={classes.ListNumber}>Número de lista: {numberlist}</p>
+
+            <button
+              className={classes.ActionButton}
+              onClick={() => setMostrarIntegrantes(true)}
+            >
+              INTEGRANTES
+            </button>
           </div>
         </>
       ) : (
@@ -36,7 +45,12 @@ const Card = ({ mode, photocandidate, namecandidate, integrantes, onClick, numbe
               <li key={index}>{nombre}</li>
             ))}
           </ul>
-          <button className={classes.SmallButton} onClick={() => setMostrarIntegrantes(false)}>VOLVER</button>
+          <button
+            className={classes.SmallButton}
+            onClick={() => setMostrarIntegrantes(false)}
+          >
+            VOLVER
+          </button>
         </div>
       )}
     </div>

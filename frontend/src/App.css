@@ -45,4 +45,33 @@ body, html, #root {
   background-color: #a8b4c0
 }
 
+.selector-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espacio entre label y select */
+  padding: 20px 40px; /* Separado del borde izquierdo */
+  background-color: #a8b4c0; /* Igual que el fondo de .cards-container */
+  border-bottom: 2px solid #888; /* Línea divisoria opcional */
+}
 
+#partido-select {
+  padding: 10px 16px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 2px solid #007bff;
+  background-color: white;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#partido-select:hover {
+  background-color: #e0f0ff;
+  border-color: #0056b3;
+}
+
+label[for="partido-select"] {
+  font-size: 18px;
+  font-weight: bold;
+}

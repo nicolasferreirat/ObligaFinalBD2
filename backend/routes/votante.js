@@ -17,10 +17,23 @@ router.post('/votante/login', async (req, res) => {
 
     if (rows.length > 0) {
       const credencial = rows[0];
-      // Creamos el token con la serie y número
-      const token = jwt.sign({ serie: credencial.serie, numero: credencial.numero }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-      res.json({ ok: true, token, mensaje: 'Login exitoso' });
+      // Crear el token
+      const token = jwt.sign(
+        { serie: credencial.serie, numero: credencial.numero },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      // Devolver también el circuito y si ya votó
+      res.json({
+        ok: true,
+        token,
+        mensaje: 'Login exitoso',
+        idCircuito: credencial.idCircuito,
+        yavoto: credencial.yavoto
+      });
+
     } else {
       res.status(401).json({ ok: false, mensaje: 'Credencial no encontrada' });
     }
@@ -29,6 +42,7 @@ router.post('/votante/login', async (req, res) => {
     res.status(500).json({ ok: false, mensaje: 'Error del servidor' });
   }
 });
+
 
 // GET /votante/inicio
 // Ruta protegida: solo accesible con token válido

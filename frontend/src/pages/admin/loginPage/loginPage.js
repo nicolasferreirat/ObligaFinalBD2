@@ -55,7 +55,7 @@ function LoginPage() {
 
     <div className="login-box">
       <h2>Administrador</h2>
-      <p className="subtitulo">Ingrese su cédula para Continuar:</p>
+      <h4 className="subtituloced">Ingrese su cédula para Continuar</h4>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="ci">Cédula:</label>

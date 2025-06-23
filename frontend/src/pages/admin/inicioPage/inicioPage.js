@@ -26,9 +26,7 @@ function InicioPage() {
 
       try {
         const res = await fetch('http://localhost:4000/admin/inicio', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+          headers: { Authorization: `Bearer ${token}` }
         });
 
         if (!res.ok) {
@@ -38,7 +36,6 @@ function InicioPage() {
         }
 
         const data = await res.json();
-
         setDatosPresidente({
           ci: data.usuario,
           nombre: data.nombre,
@@ -49,7 +46,8 @@ function InicioPage() {
           departamento: data.departamento
         });
 
-        // Guardamos los datos en localstorage para usarlos en VotacionPage
+        // Guardamos datos en localStorage
+        localStorage.setItem('token', token);
         localStorage.setItem('ci', data.usuario);
         localStorage.setItem('establecimiento', data.establecimiento);
         localStorage.setItem('nombre', data.nombre);
@@ -60,7 +58,7 @@ function InicioPage() {
 
       } catch (err) {
         console.error('Error al verificar token:', err);
-        localStorage.removeItem('token');
+        localStorage.clear();
         navigate('/admin/login'); 
       }
     };
@@ -68,20 +66,29 @@ function InicioPage() {
     verificarToken();
   }, [navigate]);
 
-  const confirmarHabilitacion = () => { 
+  const confirmarHabilitacion = async () => {
+  const idCircuito = datosPresidente.idCircuito;
+
+  try {
+    const res = await fetch(`http://localhost:4000/habilitarVotacion/${idCircuito}`, {
+      method: 'POST'
+    });
+
+    if (!res.ok) {
+      console.error('Error al habilitar votación');
+      return;
+    }
+
     setMostrarModal(false);
-    navigate('/admin/elecciones');  
-  };
+    navigate('/admin/elecciones/enCurso');
+    
+  } catch (err) {
+    console.error('Error al habilitar votación:', err);
+  }
+};
 
   const salir = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('ci');
-    localStorage.removeItem('establecimiento');
-    localStorage.removeItem('nombre');
-    localStorage.removeItem('apellido');
-    localStorage.removeItem('departamento');
-    localStorage.removeItem('numeroMesa');
-    localStorage.removeItem('idCircuito');
+    localStorage.clear();
     navigate('/admin/login');
   };
 
@@ -95,12 +102,10 @@ function InicioPage() {
         </div>
       </header>
 
-
-      <h2 className="subtitulo"> Bienvenido presidente {datosPresidente.nombre} {datosPresidente.apellido}</h2>
+      <h2>Bienvenido/a presidente {datosPresidente.nombre} {datosPresidente.apellido}</h2>
 
       <div className="info-box">
-         <p><strong>DATOS</strong></p>
-        <p><strong>Mesa N°</strong> {datosPresidente.numeroMesa} </p>
+        <p><strong>Mesa N°</strong> {datosPresidente.numeroMesa}</p>
         <p><strong>Circuito N°</strong> {datosPresidente.idCircuito}</p>
         <p><strong>Establecimiento:</strong> {datosPresidente.establecimiento}</p>
         <p><strong>Departamento:</strong> {datosPresidente.departamento}</p>
@@ -109,7 +114,6 @@ function InicioPage() {
       <h3 className="bienvenida">
         Haga Click en el botón "Habilitar Mesa" para comenzar la votación en el Circuito.
       </h3>
-
 
       <button className="boton-habilitar" onClick={() => setMostrarModal(true)}>
         Habilitar Mesa

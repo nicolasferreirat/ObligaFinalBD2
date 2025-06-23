@@ -1,17 +1,17 @@
 import React from 'react';
-//import './Modal.css'; // Estilos separados si querés
+import './Modal.css'; // Asegurate de importarlo
 
-const Modal = ({ isOpen, onClose, children }) => {
+function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-backdrop">
+    <div className="modal-overlay">
       <div className="modal-content">
+        <button className="modal-close-button" onClick={onClose} title="Cerrar">×</button>
         {children}
-        <button onClick={onClose}>Cerrar</button>
       </div>
     </div>
   );
-};
+}
 
 export default Modal;

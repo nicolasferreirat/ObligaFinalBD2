@@ -1,6 +1,6 @@
 .votacion-wrapper {
   padding: 40px 20px;
-  background-color: #ffffff;
+  background-color: #00b3ff;
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
@@ -41,7 +41,7 @@
   margin: 0;
   font-size: 28px;
   color: #333;
-  padding-left: 60px; 
+  padding-left: 60px;
 }
 
 .contenedor-hora-titulo {
@@ -55,13 +55,13 @@
   position: absolute;
   top: 0;
   left: 20px;
-  font-size: 18px;
+  font-size: 30px !important;
   font-weight: bold;
   color: #333;
 }
 
 .titulo-votacion {
-  font-size: 22px;
+  font-size: 27px !important;
   color: #444;
   text-align: center;
   margin-top: 0;
@@ -169,4 +169,40 @@
 
 .modal button.cancelar:hover {
   background-color: #bb2d3b;
+}
+
+
+.tabla-personas {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.tabla-personas th,
+.tabla-personas td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-personas th {
+  background-color: #ff8503;
+  color: white;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.tabla-personas td {
+  font-size: 15px;
+  color: #333;
+}
+
+.tabla-personas tr:hover {
+  background-color: #f2f8ff;
 }

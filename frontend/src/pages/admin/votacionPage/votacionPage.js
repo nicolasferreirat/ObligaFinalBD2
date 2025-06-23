@@ -60,10 +60,26 @@ function VotacionPage() {
     return () => clearInterval(intervalo);
   }, []);
 
-  const confirmarCierre = () => {
+  const confirmarCierre = async () => {
+  const idCircuito = localStorage.getItem('idCircuito');
+
+  try {
+    const res = await fetch(`http://localhost:4000/cerrarVotacion/${idCircuito}`, {
+      method: 'POST'
+    });
+
+    if (!res.ok) {
+      console.error('Error al cerrar la votación');
+      return;
+    }
+
     setMostrarModal(false);
     navigate('/admin/resultados');
-  };
+  } catch (error) {
+    console.error('Error al cerrar votación:', error);
+  }
+};
+
 
   return (
     <div className="votacion-wrapper">
@@ -79,21 +95,25 @@ function VotacionPage() {
         <h2 className="titulo-votacion">Personas habilitadas a votar en este Circuito</h2>
       </div>
 
-
-
       {credenciales.length === 0 ? (
         <p>Cargando credenciales...</p>
       ) : (
-        <ul className="lista-personas">
-          {credenciales.map((c, i) => (
-            <li key={i}>
-              <div className="fila-persona">
-                <span className="campo-credencial">{c.serie} {c.numero}</span>
-                <span className="campo-nombre">{c.nombre} {c.apellido}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <table className="tabla-personas">
+          <thead>
+            <tr>
+              <th>Credencial</th>
+              <th>Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            {credenciales.map((c, i) => (
+              <tr key={i}>
+                <td>{c.serie} {c.numero}</td>
+                <td>{c.nombre} {c.apellido}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
 
       <button className="btn-terminar" onClick={() => setMostrarModal(true)}>

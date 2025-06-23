@@ -22,9 +22,10 @@ app.get('/test-db', async (req, res) => {
 });
 
 // Rutas
-app.use('/', require('./routes/persona'));
 app.use('/', require('./routes/admin')); 
 app.use('/', require('./routes/votante'));
+app.use('/', require('./routes/resultados'));
+app.use('/', require('./routes/estadosVotacion'));
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

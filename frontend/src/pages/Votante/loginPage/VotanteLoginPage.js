@@ -16,40 +16,53 @@ function VotanteLoginPage() {
   const closeModal = () => setModalVisible(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensaje('');
-    setError('');
+  e.preventDefault();
+  setMensaje('');
+  setError('');
 
-    try {
-      const res = await fetch('http://localhost:4000/votante/login', { //Debe ser igual a la ruta del backend que hace el endpoint de POST
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ serie, numero })
-      });
+  try {
+    // validar credencial y obtener circuito
+    const res = await fetch('http://localhost:4000/votante/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ serie, numero })
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.ok) {
-        setMensaje(data.mensaje);
-        localStorage.setItem('token', data.token);
-
-        //Verificamos si ya votó:
-        if(data.yavoto === 1) {
-          setError('Ya has emitido tu voto.');
-          return; //No continúa a votacionPage
-        }
-
-        navigate('/votacionPage');
-      } else {
-        setError(data.mensaje);
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      setError('Error al conectar con el servidor');
+    if (!res.ok) {
+      setError(data.mensaje || 'Credencial incorrecta');
+      return;
     }
-  };
+
+    // Chequear si ya votó
+    if (data.yavoto === 1) {
+      setError('Ya has emitido tu voto.');
+      return;
+    }
+
+    const idCircuito = data.idCircuito;
+    console.log('ID Circuito:', idCircuito);
+
+    // Consultar si la votación está habilitada
+    const estadoRes = await fetch(`http://localhost:4000/estadoVotacion/${idCircuito}`);
+    const estadoData = await estadoRes.json();
+
+    if (!estadoData.habilitada) {
+      setError('La votación aún no ha sido habilitada para este circuito.');
+      return;
+    }
+
+    // si esta habilitada la votacion, avanza 
+    localStorage.setItem('token', data.token);
+    navigate('/votacionPage');
+    
+  } catch (err) {
+    console.error('Error:', err);
+    setError('Error al conectar con el servidor');
+  }
+};
+
 
   return (
     <div className="login-wrapper">
@@ -64,12 +77,12 @@ function VotanteLoginPage() {
       <Modal isOpen={modalVisible} onClose={closeModal}>
         <h2>Información</h2>
         <p>Bienvenido al sistema de votación electrónica.
-A continuación, podrás emitir tu voto de forma segura y confidencial. Te recordamos que este proceso es único y no puede repetirse.</p>
+        A continuación, podrás emitir tu voto de forma segura y confidencial. Te recordamos que este proceso es único y no puede repetirse.</p>
       </Modal>
 
       <div className="login-box">
         <h2>Usuario votante:</h2>
-        <p className="subtitulo">Ingrese su Credencial para Ingresar:</p>
+        <p className="subtituloing">Ingrese su Credencial para Ingresar</p>
 
         <form onSubmit={handleSubmit}>
           <label>Serie:</label>

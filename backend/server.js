@@ -38,6 +38,9 @@ app.use('/',require('./routes/listas'));
 
 app.use('/',require('./routes/partidos')); 
 
+app.use('/',require('./routes/integrantes')); 
+
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

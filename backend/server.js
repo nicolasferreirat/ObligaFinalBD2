@@ -40,6 +40,8 @@ app.use('/',require('./routes/partidos'));
 
 app.use('/',require('./routes/integrantes')); 
 
+app.use('/',require('./routes/votos'))
+
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

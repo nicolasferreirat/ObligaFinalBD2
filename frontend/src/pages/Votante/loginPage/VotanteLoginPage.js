@@ -86,14 +86,17 @@ function VotanteLoginPage() {
 
         <form onSubmit={handleSubmit}>
           <label>Serie:</label>
-          <input type="text" value={serie} onChange={(e) => setSerie(e.target.value)} />
+          <input type="text" placeholder="Ej: ABC" value={serie} onChange={(e) => setSerie(e.target.value)} maxLength={3} />
           <label>Número:</label>
-          <input type="text" value={numero} onChange={(e) => setNumero(e.target.value)} />
+          <input type="text" placeholder="Ej: 12345" value={numero} onChange={(e) => setNumero(e.target.value)} maxLength={5} />
           <button type="submit">Ingresar</button>
         </form>
 
         {mensaje && <p className="mensaje">{mensaje}</p>}
         {error && <p className="error">{error}</p>}
+      </div>
+      <div>
+        <button className="" type="submit">Administrador</button>
       </div>
     </div>
   );

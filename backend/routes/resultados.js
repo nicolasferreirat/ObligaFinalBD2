@@ -54,10 +54,11 @@ router.get('/resultados/:idCircuito', async (req, res) => {
       FROM Lista L
       JOIN Partido_Politico PP ON L.idPartido_Politico = PP.id
       LEFT JOIN Es_Valido EV ON L.numero_unico = EV.numero_unicoLista
-      LEFT JOIN Voto V1 ON V1.id = EV.idVoto AND V1.idCircuito = ?
+      LEFT JOIN Voto V1 ON V1.id = EV.idVoto
       LEFT JOIN Es_Observado EO ON L.numero_unico = EO.numero_unicoLista
-      LEFT JOIN Voto V2 ON V2.id = EO.idVoto AND V2.idCircuito = ?
-      GROUP BY L.numero_unico, PP.nombre;
+      LEFT JOIN Voto V2 ON V2.id = EO.idVoto
+      WHERE (V1.idCircuito = ? OR V2.idCircuito = ?)
+      GROUP BY L.numero_unico, PP.nombre
     `, [idCircuito, idCircuito]);
 
     res.json({ resultados: rows });

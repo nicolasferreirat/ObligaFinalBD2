@@ -27,6 +27,15 @@ app.use('/', require('./routes/votante'));
 app.use('/', require('./routes/resultados'));
 app.use('/', require('./routes/estadosVotacion'));
 
+app.use('/',require('./routes/listas')); 
+
+app.use('/',require('./routes/partidos')); 
+
+app.use('/',require('./routes/integrantes')); 
+
+app.use('/',require('./routes/votos'))
+
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

@@ -15,8 +15,12 @@ function App() {
   return (
     <Router>
       <Routes>
+        --Rutas del votante
         <Route path="/" element={<VotacionLoginPage />} /> -- ruta del login de votante
-        <Route path="/" element={<VotationPage />} /> -- ruta del login de votante
+        <Route path="/eleccionesInicio" element={<VotationPage />} /> -- ruta del inicio de elecciones
+    
+
+        --Rutas del administrador
         <Route path="/admin/login" element={<LoginPage />} />  -- ruta del login de administrador
         <Route path="/admin/inicio" element={<InicioPage />} /> -- ruta del inicio de administrador
         <Route path="/admin/elecciones/enCurso" element={<VotacionPage />} /> -- ruta de la votación de administrador

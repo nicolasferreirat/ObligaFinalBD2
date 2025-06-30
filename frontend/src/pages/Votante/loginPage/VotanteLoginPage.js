@@ -55,7 +55,7 @@ function VotanteLoginPage() {
 
     // si esta habilitada la votacion, avanza 
     localStorage.setItem('token', data.token);
-    navigate('/votacionPage');
+    navigate('/eleccionesInicio');
     
   } catch (err) {
     console.error('Error:', err);

@@ -1,0 +1,104 @@
+.habilitar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #54acff;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 140px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.inicio-header {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #ccc;
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Contenido dentro del header */
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+/* Logo a la izquierda */
+.logo {
+  height: 40px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Título centrado */
+.inicio-header h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #333;
+}
+
+/* Botón salir a la derecha */
+.salir-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px 16px;
+  background-color: #dc3545; /* rojo */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+.subtitulo {
+  margin-bottom: 40px;
+  font-size: 30px !important;
+  font-weight: bold;
+  color: #000000;
+}
+
+.subtitulocli {
+  margin-bottom: 40px;
+  font-size: 25px !important;
+  font-weight: normal;
+  color: #000000;
+}
+
+
+
+.botones-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.botones-menu button {
+  width: 220px;
+  padding: 12px;
+  font-size: 18px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botones-menu button:hover {
+  background-color: #0056b3;
+}

@@ -3,6 +3,42 @@ const router = express.Router();
 const pool = require('../database'); // tu pool ya definido
 const verificarToken = require('../middleware/auth'); // si querés proteger las rutas
 
+// Obtener el candidato presidente ganador
+router.get('/resultados/ganador', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        P.nombre AS nombre,
+        P.apellido AS apellido,
+        PP.nombre AS partido,
+        COUNT(*) AS votos
+      FROM (
+        SELECT EV.numero_unicoLista
+        FROM Es_Valido EV
+
+        UNION ALL
+
+        SELECT EO.numero_unicoLista
+        FROM Es_Observado EO
+      ) AS votos
+      JOIN Rol_Lista_Candidato RLC ON votos.numero_unicoLista = RLC.idLista
+      JOIN Rol R ON RLC.idRol = R.id
+      JOIN Candidato C ON RLC.idCandidato = C.CI
+      JOIN Persona P ON C.CI = P.CI
+      JOIN Lista L ON RLC.idLista = L.numero_unico
+      JOIN Partido_Politico PP ON L.idPartido_Politico = PP.id
+      WHERE R.descripcion = 'Presidente'
+      GROUP BY P.nombre, P.apellido, PP.nombre
+      ORDER BY votos DESC
+      LIMIT 1;
+    `);
+
+    res.json(rows[0]); // solo el ganador
+  } catch (err) {
+    console.error('Error al obtener el candidato presidente ganador:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 
 // Votos válidos y observados por lista
 router.get('/resultados/:idCircuito', async (req, res) => {
@@ -122,5 +158,106 @@ router.get('/resultados/candidatos/:idCircuito', async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 });
+
+// Para listar los departamentos en las paginas del os resultados por depto
+router.get('/departamentos', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT id, nombre FROM Departamento');
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener departamentos:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Resultados por partido en un departamento
+router.get('/resultados/partido/departamento/:idDepartamento', async (req, res) => {
+  const { idDepartamento } = req.params;
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        PP.nombre AS partido,
+        COUNT(*) AS votos
+      FROM (
+        SELECT EV.idVoto, L.idPartido_Politico
+        FROM Es_Valido EV
+        JOIN Voto V ON V.id = EV.idVoto
+        JOIN Lista L ON EV.numero_unicoLista = L.numero_unico
+        JOIN Circuito C ON V.idCircuito = C.id
+        JOIN Establecimiento E ON C.idEstablecimiento = E.id
+        JOIN Zona Z ON E.idZona = Z.id
+        WHERE Z.idDepartamento = ?
+
+        UNION ALL
+
+        SELECT EO.idVoto, L.idPartido_Politico
+        FROM Es_Observado EO
+        JOIN Voto V ON V.id = EO.idVoto
+        JOIN Lista L ON EO.numero_unicoLista = L.numero_unico
+        JOIN Circuito C ON V.idCircuito = C.id
+        JOIN Establecimiento E ON C.idEstablecimiento = E.id
+        JOIN Zona Z ON E.idZona = Z.id
+        WHERE Z.idDepartamento = ?
+      ) AS sub
+      JOIN Partido_Politico PP ON sub.idPartido_Politico = PP.id
+      GROUP BY PP.nombre;
+    `, [idDepartamento, idDepartamento]);
+
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener resultados por departamento:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+// Resultados por candidato presidencial en un departamento
+router.get('/resultados/candidato/departamento/:idDepartamento', async (req, res) => {
+  const { idDepartamento } = req.params;
+
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        P.nombre AS nombre,
+        P.apellido AS apellido,
+        PP.nombre AS partido,
+        COUNT(*) AS votos
+      FROM (
+        SELECT EV.idVoto, EV.numero_unicoLista
+        FROM Es_Valido EV
+        JOIN Voto V ON V.id = EV.idVoto
+        JOIN Circuito C ON V.idCircuito = C.id
+        JOIN Establecimiento E ON C.idEstablecimiento = E.id
+        JOIN Zona Z ON E.idZona = Z.id
+        WHERE Z.idDepartamento = ?
+
+        UNION ALL
+
+        SELECT EO.idVoto, EO.numero_unicoLista
+        FROM Es_Observado EO
+        JOIN Voto V ON V.id = EO.idVoto
+        JOIN Circuito C ON V.idCircuito = C.id
+        JOIN Establecimiento E ON C.idEstablecimiento = E.id
+        JOIN Zona Z ON E.idZona = Z.id
+        WHERE Z.idDepartamento = ?
+      ) AS votos
+      JOIN Rol_Lista_Candidato RLC ON votos.numero_unicoLista = RLC.idLista
+      JOIN Rol R ON RLC.idRol = R.id
+      JOIN Candidato C ON RLC.idCandidato = C.CI
+      JOIN Persona P ON C.CI = P.CI
+      JOIN Lista L ON RLC.idLista = L.numero_unico
+      JOIN Partido_Politico PP ON L.idPartido_Politico = PP.id
+      WHERE R.descripcion = 'Presidente'
+      GROUP BY P.nombre, P.apellido, PP.nombre
+      ORDER BY votos DESC;
+    `, [idDepartamento, idDepartamento]);
+
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener resultados por candidato a presidente:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
 
 module.exports = router;

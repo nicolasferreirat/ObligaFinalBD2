@@ -96,9 +96,6 @@ function VotanteLoginPage() {
         {mensaje && <p className="mensaje">{mensaje}</p>}
         {error && <p className="error">{error}</p>}
       </div>
-      <div>
-        <button className="" type="submit">Administrador</button>
-      </div>
     </div>
   );
 }

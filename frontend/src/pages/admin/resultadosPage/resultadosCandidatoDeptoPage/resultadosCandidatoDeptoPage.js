@@ -92,6 +92,7 @@ function ResultadosCandidatoDepartamentoPage() {
               ))}
             </tbody>
           </table>
+          <p>-</p>
         </>
       )}
     </div>

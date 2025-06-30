@@ -92,6 +92,7 @@ function ResultadosPorDepartamentoPage() {
               ))}
             </tbody>
           </table>
+          <p>-</p>
         </>
       )}
     </div>

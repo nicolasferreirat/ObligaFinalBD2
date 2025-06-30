@@ -29,7 +29,7 @@ function VotationPage() {
     fetchPartidos();
   }, []);
 
-  // Cargar listas (todas o por partido)
+  // Cargar las listas (todas o por partido)
   useEffect(() => {
     const fetchListas = async () => {
       try {
@@ -75,7 +75,8 @@ function VotationPage() {
     const fecha = new Date();
     const fechaEmitido = fecha.toISOString().split("T")[0];
     const horaEmitido = fecha.toTimeString().split(" ")[0];
-    const idCircuito = 1;
+    const idCircuito = Number(localStorage.getItem("idCircuito"));
+
 
     try {
       // 1. Crear voto

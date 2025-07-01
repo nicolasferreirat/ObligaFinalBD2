@@ -8,7 +8,7 @@ function ResultadosPage() {
   const [ganador, setGanador] = useState(null);
 
   const salir = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate('/admin/login');
   };
 

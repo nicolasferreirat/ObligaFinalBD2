@@ -70,4 +70,21 @@ router.post('/voto/blanco', async (req, res) => {
   }
 });
 
+// 5. Registrar voto observado
+router.post('/voto/observado', async (req, res) => {
+  const { idVoto, numero_unicoLista } = req.body;
+
+  try {
+    await pool.query(
+      `INSERT INTO Es_Observado (idVoto, numero_unicoLista) VALUES (?, ?)`,
+      [idVoto, numero_unicoLista]
+    );
+
+    res.status(201).json({ message: 'Voto observado registrado' });
+  } catch (error) {
+    console.error('Error al registrar voto observado:', error);
+    res.status(500).json({ error: 'Error al registrar voto observado' });
+  }
+});
+
 module.exports = router;

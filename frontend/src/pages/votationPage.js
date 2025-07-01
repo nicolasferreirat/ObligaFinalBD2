@@ -9,8 +9,6 @@ function VotationPage() {
   const [partidoSeleccionado, setPartidoSeleccionado] = useState("todos");
   const [integrantesPorLista, setIntegrantesPorLista] = useState({});
   const [listasSeleccionadas, setListasSeleccionadas] = useState([]);
-
-  // Nuevo: para confirmar voto
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [forzarBlanco, setForzarBlanco] = useState(false);
 
@@ -25,7 +23,6 @@ function VotationPage() {
         console.error("Error al traer partidos:", error);
       }
     };
-
     fetchPartidos();
   }, []);
 
@@ -44,7 +41,6 @@ function VotationPage() {
         console.error("Error al traer las listas:", error);
       }
     };
-
     fetchListas();
   }, [partidoSeleccionado]);
 
@@ -59,7 +55,6 @@ function VotationPage() {
         console.error("Error al traer integrantes:", error);
       }
     };
-
     fetchIntegrantes();
   }, []);
 
@@ -75,8 +70,8 @@ function VotationPage() {
     const fecha = new Date();
     const fechaEmitido = fecha.toISOString().split("T")[0];
     const horaEmitido = fecha.toTimeString().split(" ")[0];
-    const idCircuito = Number(localStorage.getItem("idCircuito"));
-
+    const idCircuito = Number(sessionStorage.getItem("idCircuito"));
+    const esObservado = sessionStorage.getItem("esObservado") === "true"; // ✅
 
     try {
       // 1. Crear voto
@@ -97,7 +92,11 @@ function VotationPage() {
         });
         alert("✅ Voto en blanco registrado.");
       } else if (listasSeleccionadas.length === 1) {
-        await fetch("http://localhost:4000/voto/valido", {
+        const endpoint = esObservado
+          ? "http://localhost:4000/voto/observado"
+          : "http://localhost:4000/voto/valido";
+
+        await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -105,7 +104,8 @@ function VotationPage() {
             numero_unicoLista: listasSeleccionadas[0],
           }),
         });
-        alert(`✅ Voto válido registrado por la lista ${listasSeleccionadas[0]}`);
+
+        alert(`✅ Voto ${esObservado ? "observado" : "válido"} registrado por la lista ${listasSeleccionadas[0]}`);
       } else {
         await fetch("http://localhost:4000/voto/anulado", {
           method: "POST",
@@ -122,7 +122,6 @@ function VotationPage() {
     }
   };
 
-  // Nuevo: abrir confirmación
   const solicitarConfirmacion = (blanco) => {
     setForzarBlanco(blanco);
     setMostrarConfirmacion(true);
@@ -212,7 +211,7 @@ function VotationPage() {
                 CONFIRMAR
               </button>
               <button
-              className="cancel-button"
+                className="cancel-button"
                 style={{ padding: "8px 16px" }}
                 onClick={cancelarVoto}
               >

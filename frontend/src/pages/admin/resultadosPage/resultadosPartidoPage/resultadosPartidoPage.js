@@ -5,7 +5,7 @@ import './resultadosPartidoPage.css';
 
 function ResultadosPartidoPage() {
   const navigate = useNavigate();
-  const idCircuito = localStorage.getItem('idCircuito');
+  const idCircuito = sessionStorage.getItem('idCircuito');
 
   const [resultados, setResultados] = useState([]);
   const [anulados, setAnulados] = useState(0);
@@ -36,7 +36,7 @@ function ResultadosPartidoPage() {
     fetchData();
   }, [idCircuito]);
 
-  if (!idCircuito) return <p>Error: No se encontró el circuito en localStorage.</p>;
+  if (!idCircuito) return <p>Error: No se encontró el circuito en sessionStorage.</p>;
   if (cargando) return <p>Cargando resultados...</p>;
 
   // Armamos las filas

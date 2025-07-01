@@ -24,8 +24,8 @@ function VotacionPage() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const idCircuito = localStorage.getItem('idCircuito');
+    const token = sessionStorage.getItem('token');
+    const idCircuito = sessionStorage.getItem('idCircuito');
 
     if (!token || !idCircuito) {
       navigate('/admin/login');
@@ -61,7 +61,7 @@ function VotacionPage() {
   }, []);
 
   const confirmarCierre = async () => {
-  const idCircuito = localStorage.getItem('idCircuito');
+  const idCircuito = sessionStorage.getItem('idCircuito');
 
   try {
     const res = await fetch(`http://localhost:4000/cerrarVotacion/${idCircuito}`, {

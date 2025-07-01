@@ -17,7 +17,7 @@ function InicioPage() {
 
   useEffect(() => {
     const verificarToken = async () => {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
 
       if (!token) {
         navigate('/admin/login');
@@ -30,7 +30,7 @@ function InicioPage() {
         });
 
         if (!res.ok) {
-          localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
           navigate('/admin/login');
           return;
         }
@@ -46,19 +46,19 @@ function InicioPage() {
           departamento: data.departamento
         });
 
-        // Guardamos datos en localStorage
-        localStorage.setItem('token', token);
-        localStorage.setItem('ci', data.usuario);
-        localStorage.setItem('establecimiento', data.establecimiento);
-        localStorage.setItem('nombre', data.nombre);
-        localStorage.setItem('apellido', data.apellido);
-        localStorage.setItem('numeroMesa', data.numeroMesa);
-        localStorage.setItem('idCircuito', data.idCircuito);
-        localStorage.setItem('departamento', data.departamento);
+        // Guardamos datos en sessionStorage
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('ci', data.usuario);
+        sessionStorage.setItem('establecimiento', data.establecimiento);
+        sessionStorage.setItem('nombre', data.nombre);
+        sessionStorage.setItem('apellido', data.apellido);
+        sessionStorage.setItem('numeroMesa', data.numeroMesa);
+        sessionStorage.setItem('idCircuito', data.idCircuito);
+        sessionStorage.setItem('departamento', data.departamento);
 
       } catch (err) {
         console.error('Error al verificar token:', err);
-        localStorage.clear();
+        sessionStorage.clear();
         navigate('/admin/login'); 
       }
     };
@@ -88,7 +88,7 @@ function InicioPage() {
 };
 
   const salir = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate('/admin/login');
   };
 

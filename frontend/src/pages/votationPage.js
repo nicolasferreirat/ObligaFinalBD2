@@ -71,7 +71,7 @@ function VotationPage() {
     const fechaEmitido = fecha.toISOString().split("T")[0];
     const horaEmitido = fecha.toTimeString().split(" ")[0];
     const idCircuito = Number(sessionStorage.getItem("idCircuito"));
-    const esObservado = sessionStorage.getItem("esObservado") === "true"; // ✅
+    const esObservado = sessionStorage.getItem("esObservado") === "true"; 
 
     try {
       // 1. Crear voto
@@ -115,6 +115,19 @@ function VotationPage() {
         alert("⚠️ Voto anulado por seleccionar más de una lista.");
       }
 
+      // para cmarcar el ya voto en true
+      const token = sessionStorage.getItem("token");
+      if (token) {
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        const { serie, numero } = decoded;
+        console.log("Payload del token:", decoded);
+
+        await fetch("http://localhost:4000/voto/marcarYavoto", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ serie, numero }),
+        });
+      }
       setListasSeleccionadas([]);
     } catch (err) {
       console.error("Error al emitir el voto:", err);

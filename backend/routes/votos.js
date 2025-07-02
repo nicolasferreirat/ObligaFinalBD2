@@ -87,4 +87,19 @@ router.post('/voto/observado', async (req, res) => {
   }
 });
 
+router.put('/voto/marcarYavoto', async (req, res) => {
+  const { serie, numero } = req.body;
+
+  try {
+    await pool.query(
+      'UPDATE Credencial_Civica SET yavoto = true WHERE serie = ? AND numero = ?',
+      [serie, numero]
+    );
+
+    res.json({ ok: true, mensaje: 'Credencial marcada como ya votó' });
+  } catch (error) {
+    console.error('Error al marcar yavoto:', error);
+    res.status(500).json({ ok: false, mensaje: 'Error al marcar como votado' });
+  }
+});
 module.exports = router;

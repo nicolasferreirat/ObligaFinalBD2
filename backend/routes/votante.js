@@ -20,8 +20,13 @@ router.post('/votante/login', async (req, res) => {
     }
 
     const credencial = credenciales[0];
-    const CI = credencial.CI;
 
+    // Verificar si la credencial ya voto no lo dejamos   logearse
+    if (credencial.yavoto) {
+      return res.status(403).json({ ok: false, mensaje: 'Ya has emitido tu voto', yavoto: true });
+    }
+
+    const CI = credencial.CI;
     let circuitoAsignado = credencial.idCircuito;
     let esObservado = false;
 

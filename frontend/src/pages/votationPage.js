@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../Styles/votationPage.css";
 import Card from "../Components/Card";
 import logo from '../assets/CortElecLOGO.png';
@@ -10,9 +11,31 @@ function VotationPage() {
   const [integrantesPorLista, setIntegrantesPorLista] = useState({});
   const [listasSeleccionadas, setListasSeleccionadas] = useState([]);
 
-  // Nuevo: para confirmar voto
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [forzarBlanco, setForzarBlanco] = useState(false);
+
+  // Modal de éxito
+  const [mostrarExito, setMostrarExito] = useState(false);
+  const [contador, setContador] = useState(10);
+  const navigate = useNavigate();
+
+  // Countdown para redirección
+  useEffect(() => {
+    if (mostrarExito) {
+      setContador(10);
+      const interval = setInterval(() => {
+        setContador(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            navigate("/");
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [mostrarExito, navigate]);
 
   // Cargar partidos políticos
   useEffect(() => {
@@ -25,11 +48,10 @@ function VotationPage() {
         console.error("Error al traer partidos:", error);
       }
     };
-
     fetchPartidos();
   }, []);
 
-  // Cargar listas (todas o por partido)
+  // Cargar listas
   useEffect(() => {
     const fetchListas = async () => {
       try {
@@ -44,7 +66,6 @@ function VotationPage() {
         console.error("Error al traer las listas:", error);
       }
     };
-
     fetchListas();
   }, [partidoSeleccionado]);
 
@@ -59,7 +80,6 @@ function VotationPage() {
         console.error("Error al traer integrantes:", error);
       }
     };
-
     fetchIntegrantes();
   }, []);
 
@@ -75,7 +95,7 @@ function VotationPage() {
     const fecha = new Date();
     const fechaEmitido = fecha.toISOString().split("T")[0];
     const horaEmitido = fecha.toTimeString().split(" ")[0];
-    const idCircuito = 1;
+    const idCircuito = Number(localStorage.getItem("idCircuito"));
 
     try {
       // 1. Crear voto
@@ -94,7 +114,6 @@ function VotationPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ idVoto }),
         });
-        alert("✅ Voto en blanco registrado.");
       } else if (listasSeleccionadas.length === 1) {
         await fetch("http://localhost:4000/voto/valido", {
           method: "POST",
@@ -104,16 +123,15 @@ function VotationPage() {
             numero_unicoLista: listasSeleccionadas[0],
           }),
         });
-        alert(`✅ Voto válido registrado por la lista ${listasSeleccionadas[0]}`);
       } else {
         await fetch("http://localhost:4000/voto/anulado", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ idVoto }),
         });
-        alert("⚠️ Voto anulado por seleccionar más de una lista.");
       }
 
+      setMostrarExito(true);
       setListasSeleccionadas([]);
     } catch (err) {
       console.error("Error al emitir el voto:", err);
@@ -121,7 +139,6 @@ function VotationPage() {
     }
   };
 
-  // Nuevo: abrir confirmación
   const solicitarConfirmacion = (blanco) => {
     setForzarBlanco(blanco);
     setMostrarConfirmacion(true);
@@ -139,7 +156,7 @@ function VotationPage() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="Logo" style={{ height: '80px', marginRight: 'auto' }} />
+        <img src={logo} alt="Logo" style={{ height: '40px', marginRight: 'auto' }} />
         <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
           <p>ELECCIONES 2025</p>
           <p>¿A QUIÉN VAS A VOTAR?</p>
@@ -196,7 +213,6 @@ function VotationPage() {
         ))}
       </div>
 
-      {/* Modal de confirmación */}
       {mostrarConfirmacion && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -211,13 +227,24 @@ function VotationPage() {
                 CONFIRMAR
               </button>
               <button
-              className="cancel-button"
+                className="cancel-button"
                 style={{ padding: "8px 16px" }}
                 onClick={cancelarVoto}
               >
                 CANCELAR
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarExito && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div style={{ fontSize: "48px", color: "#28a745" }}>✅</div>
+            <h3>Voto exitoso</h3>
+            <p>Su voto se registró correctamente.</p>
+            <p>Será redirigido en <strong>{contador}</strong> segundos...</p>
           </div>
         </div>
       )}

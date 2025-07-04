@@ -4,17 +4,23 @@ import LoginPage from './pages/admin/loginPage/loginPage';
 import InicioPage from './pages/admin/inicioPage/inicioPage';
 import VotacionPage from './pages/admin/votacionPage/votacionPage';
 import VotacionLoginPage from './pages/Votante/loginPage/VotanteLoginPage'; 
+import VotationPage from "./pages/votationPage";
 import ResultadosPage from './pages/admin/resultadosPage/resultadosPage';
 import ResultadosListaPage from './pages/admin/resultadosPage/resultadosListaPage/resultadosListaPage';
 import ResultadosCandidatoPage from './pages/admin/resultadosPage/resultadosCandidatoPage/resultadosCandidatoPage';
 import ResultadosPartidoPage from './pages/admin/resultadosPage/resultadosPartidoPage/resultadosPartidoPage';
-import VotacionPage from './pages/admin/votacionPage/votacionPage';
+
 
 function App() {
   return (
     <Router>
       <Routes>
+        --Rutas del votante
         <Route path="/" element={<VotacionLoginPage />} /> -- ruta del login de votante
+        <Route path="/eleccionesInicio" element={<VotationPage />} /> -- ruta del inicio de elecciones
+    
+
+        --Rutas del administrador
         <Route path="/admin/login" element={<LoginPage />} />  -- ruta del login de administrador
         <Route path="/admin/inicio" element={<InicioPage />} /> -- ruta del inicio de administrador
         <Route path="/admin/elecciones/enCurso" element={<VotacionPage />} /> -- ruta de la votación de administrador

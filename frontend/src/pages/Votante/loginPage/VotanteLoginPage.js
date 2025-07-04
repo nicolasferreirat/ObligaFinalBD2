@@ -42,7 +42,6 @@ function VotanteLoginPage() {
     }
 
     const idCircuito = data.idCircuito;
-    console.log('ID Circuito:', idCircuito);
 
     // Consultar si la votación está habilitada
     const estadoRes = await fetch(`http://localhost:4000/estadoVotacion/${idCircuito}`);
@@ -55,7 +54,9 @@ function VotanteLoginPage() {
 
     // si esta habilitada la votacion, avanza 
     localStorage.setItem('token', data.token);
-    navigate('/votacionPage');
+    localStorage.setItem('idCircuito', idCircuito);
+
+    navigate('/eleccionesInicio');
     
   } catch (err) {
     console.error('Error:', err);

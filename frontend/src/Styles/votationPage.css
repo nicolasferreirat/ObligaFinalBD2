@@ -127,3 +127,37 @@ label[for="partido-select"] {
 .cancel-button:hover {
   background-color: #c82333;
 }
+
+.btn-votar {
+  background-color:  #006eff;;
+  color: white;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-votar:hover {
+  background-color: #3399ff;
+}
+
+.btn-blanco {
+  background-color: #dcdcdc;
+  color: #333;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-blanco:hover {
+  background-color: #c0c0c0;
+}

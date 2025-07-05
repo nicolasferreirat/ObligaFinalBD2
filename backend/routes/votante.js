@@ -45,7 +45,7 @@ router.post('/votante/login', async (req, res) => {
       );
 
       if (circuitoPolicial.length > 0) {
-        circuitoAsignado = circuitoPolicial[0].id;
+        circuitoAsignado = circuitoPolicial[0].id;  //le asignamos el circuito a votar en donde trabaja
         esObservado = true;
       }
     } else {
@@ -58,7 +58,7 @@ router.post('/votante/login', async (req, res) => {
       `, [CI, CI, CI]);
 
       if (circuitoMesa.length > 0) {
-        circuitoAsignado = circuitoMesa[0].idCircuito;
+        circuitoAsignado = circuitoMesa[0].idCircuito;  //le asignamos el circuito a votar en donde trabaja
         esObservado = true;
       }
     }

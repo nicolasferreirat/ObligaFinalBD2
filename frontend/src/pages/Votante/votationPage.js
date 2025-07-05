@@ -220,22 +220,11 @@ function VotationPage() {
           ))}
         </select>
 
-        <button style={{ marginLeft: "16px", padding: "8px 20px" }} onClick={() => solicitarConfirmacion(false)}>
+        <button className="btn-votar" onClick={() => solicitarConfirmacion(false)}>
           VOTAR
         </button>
 
-        <button
-          style={{
-            marginLeft: "8px",
-            padding: "8px 20px",
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
-          }}
-          onClick={() => solicitarConfirmacion(true)}
-        >
+        <button className="btn-blanco" onClick={() => solicitarConfirmacion(true)}>
           VOTO BLANCO
         </button>
       </div>

@@ -107,7 +107,7 @@ ENDPOINTS DEL BACKEND:
 ----------------------
 En archivo admin.js:
 - /admin/login  = POST para loguearse como usuario ADMINISTRADOR
-- /credencialesAsignadasCircuito/:idCircuito = GET para mostrar las CC asignadas al circuito
+- /credencialesAsignadasCircuito/:idCircuito = GET para mostrar las CC asignadas al circuito(ciudadanos y trabajadores)
 - /admin/inicio = GET para mostrar los datos del circuito en la página de inicio
 
 En archivo estadosVotacion.js:
@@ -151,4 +151,11 @@ En archivo votos.js:
 POSIBLES ERRORES
 -----------------
 ER_ACCESS_DENIED_ERROR = credenciales incorrectas en .env
+
 ECONNREFUSED = base de datos no disponible desde tu red
+
+SI OCURRE ESTO:
+the attribute version is obsolete, it will be ignored, please remove it to avoid potential confusion"
+unable to get image 'obligafinalbd2-frontend': error during connect: Get "http://%2F%2F.%2Fpipe%2FdockerDesktopLinuxEngine/v1.48/images/obligafinalbd2-frontend/json": open //./pipe/dockerDesktopLinuxEngine: The system cannot find the file specified.
+
+= Es porque no tiene abierto y corriendo Docker Desktop en su computadora

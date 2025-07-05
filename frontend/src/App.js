@@ -1,16 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from './pages/admin/loginPage/loginPage'; 
-import InicioPage from './pages/admin/inicioPage/inicioPage';
-import VotacionPage from './pages/admin/votacionPage/votacionPage';
-import VotacionLoginPage from './pages/Votante/loginPage/VotanteLoginPage'; 
-import VotationPage from "./pages/votationPage";
-import ResultadosPage from './pages/admin/resultadosPage/resultadosPage';
-import ResultadosListaPage from './pages/admin/resultadosPage/resultadosListaPage/resultadosListaPage';
-import ResultadosCandidatoPage from './pages/admin/resultadosPage/resultadosCandidatoPage/resultadosCandidatoPage';
-import ResultadosPartidoPage from './pages/admin/resultadosPage/resultadosPartidoPage/resultadosPartidoPage';
-import ResultadosPartidoDeptoPage from './pages/admin/resultadosPage/resultadosPartidoDeptoPage/resultadosPartidoDeptoPage';
-import ResultadosCandidatoDepartamentoPage from './pages/admin/resultadosPage/resultadosCandidatoDeptoPage/resultadosCandidatoDeptoPage';
+import LoginPage from './pages/admin/LoginPage/LoginPage';
+import InicioPage from './pages/admin/InicioPage/InicioPage';
+import VotacionPage from './pages/admin/VotacionPage/VotacionPage';
+import VotacionLoginPage from './pages/Votante/LoginPage/VotanteLoginPage';
+import VotationPage from "./pages/Votante/votationPage";
+import ResultadosPage from './pages/admin/ResultadosPage/resultadosPage';
+import ResultadosListaPage from './pages/admin/ResultadosPage/resultadosListaPage/resultadosListaPage';
+import ResultadosCandidatoPage from './pages/admin/ResultadosPage/resultadosCandidatoPage/resultadosCandidatoPage';
+import ResultadosPartidoPage from './pages/admin/ResultadosPage/resultadosPartidoPage/resultadosPartidoPage';
+import ResultadosPartidoDeptoPage from './pages/admin/ResultadosPage/resultadosPartidoDeptoPage/resultadosPartidoDeptoPage';
+import ResultadosCandidatoDepartamentoPage from './pages/admin/ResultadosPage/resultadosCandidatoDeptoPage/resultadosCandidatoDeptoPage';
 
 function App() {
   return (
@@ -31,7 +31,6 @@ function App() {
         <Route path="/admin/resultadosCircuitos/partidos" element={<ResultadosPartidoPage />} /> -- ruta de resultados por partido politico
         <Route path="/admin/resultadosPartidos/departamentos" element={<ResultadosPartidoDeptoPage />} /> -- ruta de resultados por partido politico por departamento
         <Route path="/admin/resultadosCandidatos/departamentos" element={<ResultadosCandidatoDepartamentoPage />} /> -- ruta de resultados por candidato por departamento
-        <Route path="/votacionpage" element={<VotacionPage />} /> -- ruta de votacionPage
       </Routes>
     </Router>
   );

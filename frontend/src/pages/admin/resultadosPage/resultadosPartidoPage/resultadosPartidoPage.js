@@ -16,7 +16,7 @@ function ResultadosPartidoPage() {
     const fetchData = async () => {
       try {
         const [resPartidos, resOtros] = await Promise.all([
-          fetch(`http://localhost:4000/resultados/partido/${idCircuito}`),
+          fetch(`http://localhost:4000/resultados/partidos/${idCircuito}`),
           fetch(`http://localhost:4000/resultados/diferentes/${idCircuito}`)
         ]);
 
@@ -64,7 +64,7 @@ function ResultadosPartidoPage() {
       <header className="inicio-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h2>Elecciones Presidenciales 2024</h2>
+          <h2>Elecciones Presidenciales</h2>
           <button className="volver-btn" onClick={() => navigate('/admin/resultados')}>Volver</button>
         </div>
       </header>

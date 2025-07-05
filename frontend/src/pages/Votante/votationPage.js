@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import "../Styles/votationPage.css";
-import Card from "../Components/Card";
-import logo from '../assets/CortElecLOGO.png';
+import "../../Styles/votationPage.css";
+import Card from "../../Components/Card";
+import logo from '../../assets/CortElecLOGO.png';
 
 function VotationPage() {
   const [listas, setListas] = useState([]);
@@ -12,13 +12,49 @@ function VotationPage() {
   const [listasSeleccionadas, setListasSeleccionadas] = useState([]);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [forzarBlanco, setForzarBlanco] = useState(false);
-
-  // Modal de éxito
   const [mostrarExito, setMostrarExito] = useState(false);
   const [contador, setContador] = useState(10);
   const navigate = useNavigate();
 
-  // Countdown para redirección
+  // validar token y redirigir si no lo tiene
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const exp = payload.exp;
+      const now = Math.floor(Date.now() / 1000);
+      if (exp < now) {
+        sessionStorage.clear();
+        navigate("/");
+      }
+    } catch (e) {
+      sessionStorage.clear();
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // bloqueo la ida para atras en el navegador
+  useEffect(() => {
+    const bloquearAtras = (e) => {
+      e.preventDefault();
+      window.history.pushState(null, null, window.location.pathname);
+    };
+
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', bloquearAtras);
+
+    return () => {
+      window.removeEventListener('popstate', bloquearAtras);
+    };
+  }, []);
+
+  // contador y redireccion cuando el usuario ya votó
   useEffect(() => {
     if (mostrarExito) {
       setContador(10);
@@ -26,6 +62,7 @@ function VotationPage() {
         setContador(prev => {
           if (prev <= 1) {
             clearInterval(interval);
+            sessionStorage.clear();
             navigate("/");
             return 0;
           }
@@ -36,7 +73,6 @@ function VotationPage() {
     }
   }, [mostrarExito, navigate]);
 
-  // Cargar partidos políticos
   useEffect(() => {
     const fetchPartidos = async () => {
       try {
@@ -50,14 +86,12 @@ function VotationPage() {
     fetchPartidos();
   }, []);
 
-  // Cargar listas
   useEffect(() => {
     const fetchListas = async () => {
       try {
         const url = partidoSeleccionado === "todos"
           ? 'http://localhost:4000/listas'
           : `http://localhost:4000/listas/partido/${partidoSeleccionado}`;
-
         const response = await fetch(url);
         const data = await response.json();
         setListas(data);
@@ -68,7 +102,6 @@ function VotationPage() {
     fetchListas();
   }, [partidoSeleccionado]);
 
-  // Cargar integrantes
   useEffect(() => {
     const fetchIntegrantes = async () => {
       try {
@@ -95,10 +128,9 @@ function VotationPage() {
     const fechaEmitido = fecha.toISOString().split("T")[0];
     const horaEmitido = fecha.toTimeString().split(" ")[0];
     const idCircuito = Number(sessionStorage.getItem("idCircuito"));
-    const esObservado = sessionStorage.getItem("esObservado") === "true"; 
+    const esObservado = sessionStorage.getItem("esObservado") === "true";
 
     try {
-      // 1. Crear voto
       const votoRes = await fetch("http://localhost:4000/voto", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -122,14 +154,9 @@ function VotationPage() {
         await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            idVoto,
-            numero_unicoLista: listasSeleccionadas[0],
-          }),
+          body: JSON.stringify({ idVoto, numero_unicoLista: listasSeleccionadas[0] }),
         });
 
-
-        alert(`✅ Voto ${esObservado ? "observado" : "válido"} registrado por la lista ${listasSeleccionadas[0]}`);
       } else {
         await fetch("http://localhost:4000/voto/anulado", {
           method: "POST",
@@ -140,23 +167,20 @@ function VotationPage() {
 
       setMostrarExito(true);
 
-      // para cmarcar el ya voto en true
       const token = sessionStorage.getItem("token");
       if (token) {
         const decoded = JSON.parse(atob(token.split('.')[1]));
         const { serie, numero } = decoded;
-        console.log("Payload del token:", decoded);
-
         await fetch("http://localhost:4000/voto/marcarYavoto", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ serie, numero }),
         });
       }
+
       setListasSeleccionadas([]);
     } catch (err) {
       console.error("Error al emitir el voto:", err);
-      alert("❌ Error al emitir el voto.");
     }
   };
 
@@ -196,10 +220,7 @@ function VotationPage() {
           ))}
         </select>
 
-        <button
-          style={{ marginLeft: "16px", padding: "8px 20px" }}
-          onClick={() => solicitarConfirmacion(false)}
-        >
+        <button style={{ marginLeft: "16px", padding: "8px 20px" }} onClick={() => solicitarConfirmacion(false)}>
           VOTAR
         </button>
 
@@ -240,18 +261,10 @@ function VotationPage() {
             <h3>Confirmación de voto</h3>
             <p>¿Está seguro que desea confirmar su voto?</p>
             <div style={{ marginTop: "20px" }}>
-              <button
-                className="confirm-button"
-                style={{ marginRight: "10px", padding: "8px 16px" }}
-                onClick={confirmarVoto}
-              >
+              <button className="confirm-button" style={{ marginRight: "10px", padding: "8px 16px" }} onClick={confirmarVoto}>
                 CONFIRMAR
               </button>
-              <button
-                className="cancel-button"
-                style={{ padding: "8px 16px" }}
-                onClick={cancelarVoto}
-              >
+              <button className="cancel-button" style={{ padding: "8px 16px" }} onClick={cancelarVoto}>
                 CANCELAR
               </button>
             </div>

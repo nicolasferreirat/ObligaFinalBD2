@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './loginPage.css';
+import React, { useState, useEffect } from 'react';
+import './LoginPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,22 @@ function LoginPage() {
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // bloqueo la ida para atras en el navegador
+  useEffect(() => {
+    const bloquearAtras = (e) => {
+      e.preventDefault();
+      window.history.pushState(null, null, window.location.pathname);
+    };
+
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', bloquearAtras);
+
+    return () => {
+      window.removeEventListener('popstate', bloquearAtras);
+    };
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +64,7 @@ function LoginPage() {
     <header className="login-header">
       <div className="header-content">
         <img src={logo} alt="Logo" className="logo" />
-        <h1>Elecciones Presidenciales 2024</h1>
+        <h1>Elecciones Presidenciales</h1>
       </div>
     </header>
 

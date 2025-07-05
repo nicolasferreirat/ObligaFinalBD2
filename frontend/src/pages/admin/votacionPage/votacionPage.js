@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/CortElecLOGO.png';
-import './votacionPage.css';
+import './VotacionPage.css';
 
 function VotacionPage() {
   const [credenciales, setCredenciales] = useState([]);
@@ -86,7 +86,7 @@ function VotacionPage() {
       <header className="login-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h1>Elecciones Presidenciales 2024</h1>
+          <h1>Elecciones Presidenciales</h1>
         </div>
       </header>
 

@@ -5,7 +5,7 @@ import './resultadosCandidatoPage.css';
 
 function ResultadosCandidatoPage() {
   const navigate = useNavigate();
-  const idCircuito = localStorage.getItem('idCircuito');
+  const idCircuito = sessionStorage.getItem('idCircuito');
 
   const [resultados, setResultados] = useState([]);
   const [enBlanco, setEnBlanco] = useState(0);

@@ -70,4 +70,36 @@ router.post('/voto/blanco', async (req, res) => {
   }
 });
 
+// 5. Registrar voto observado
+router.post('/voto/observado', async (req, res) => {
+  const { idVoto, numero_unicoLista } = req.body;
+
+  try {
+    await pool.query(
+      `INSERT INTO Es_Observado (idVoto, numero_unicoLista) VALUES (?, ?)`,
+      [idVoto, numero_unicoLista]
+    );
+
+    res.status(201).json({ message: 'Voto observado registrado' });
+  } catch (error) {
+    console.error('Error al registrar voto observado:', error);
+    res.status(500).json({ error: 'Error al registrar voto observado' });
+  }
+});
+
+router.put('/voto/marcarYavoto', async (req, res) => {
+  const { serie, numero } = req.body;
+
+  try {
+    await pool.query(
+      'UPDATE Credencial_Civica SET yavoto = true WHERE serie = ? AND numero = ?',
+      [serie, numero]
+    );
+
+    res.json({ ok: true, mensaje: 'Credencial marcada como ya votó' });
+  } catch (error) {
+    console.error('Error al marcar yavoto:', error);
+    res.status(500).json({ ok: false, mensaje: 'Error al marcar como votado' });
+  }
+});
 module.exports = router;

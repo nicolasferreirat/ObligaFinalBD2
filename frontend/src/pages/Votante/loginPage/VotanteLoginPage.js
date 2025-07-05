@@ -49,12 +49,15 @@ function VotanteLoginPage() {
 
     if (!estadoData.habilitada) {
       setError('La votación aún no ha sido habilitada para este circuito.');
+      console.log(idCircuito)
       return;
     }
 
     // si esta habilitada la votacion, avanza 
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('idCircuito', idCircuito);
+    sessionStorage.setItem('token', data.token);
+    sessionStorage.setItem('idCircuito', idCircuito);
+    sessionStorage.setItem('esObservado', data.esObservado);
+
 
     navigate('/eleccionesInicio');
     

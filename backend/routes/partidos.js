@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database');
 
-// GET /partidos → lista todas las partidos
+// GET obtiene todos los partidos políticos
 router.get('/partidos', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM Partido_Politico');

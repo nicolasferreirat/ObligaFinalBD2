@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VotanteLoginPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
@@ -14,6 +14,21 @@ function VotanteLoginPage() {
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
+
+  // bloqueo la ida para atras en el navegador
+  useEffect(() => {
+    const bloquearAtras = (e) => {
+      e.preventDefault();
+      window.history.pushState(null, null, window.location.pathname);
+    };
+
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', bloquearAtras);
+
+    return () => {
+      window.removeEventListener('popstate', bloquearAtras);
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
   e.preventDefault();
@@ -73,20 +88,23 @@ function VotanteLoginPage() {
       <header className="login-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h1>Elecciones Presidenciales 2024</h1>
+          <h1>Elecciones Presidenciales</h1>
           <span className="info-icon" onClick={openModal} title="Información">ℹ️</span>
         </div>
       </header>
 
       <Modal isOpen={modalVisible} onClose={closeModal}>
-        <h2>Información</h2>
-        <p>Bienvenido al sistema de votación electrónica.
-        A continuación, podrás emitir tu voto de forma segura y confidencial. Te recordamos que este proceso es único y no puede repetirse.</p>
-      </Modal>
+      <h2>Información</h2>
+      <p>Bienvenido al sistema de votación electrónica.</p>
+      <p>
+        A continuación, podrás emitir tu voto de forma segura y confidencial.
+        Te recordamos que este proceso es único y no puede repetirse.
+      </p>
+    </Modal>
 
       <div className="login-box">
-        <h2>Usuario votante:</h2>
-        <p className="subtituloing">Ingrese su Credencial para Ingresar</p>
+        <h2>Usuario Votante</h2>
+        <p className="subtituloing">Ingrese su Credencial Cívica:</p>
 
         <form onSubmit={handleSubmit}>
           <label>Serie:</label>

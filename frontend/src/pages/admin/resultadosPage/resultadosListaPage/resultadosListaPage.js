@@ -22,7 +22,7 @@ function ResultadosListaPage() {
 
       try {
         const [res1, res2] = await Promise.all([
-          fetch(`http://localhost:4000/resultados/${idCircuito}`),
+          fetch(`http://localhost:4000/resultados/listas/${idCircuito}`),
           fetch(`http://localhost:4000/resultados/diferentes/${idCircuito}`)
         ]);
 
@@ -76,7 +76,7 @@ const filasConPorcentaje = filas.map((fila) => ({
       <header className="inicio-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h2>Elecciones Presidenciales 2024</h2>
+          <h2>Elecciones Presidenciales</h2>
           <button className="volver-btn" onClick={() => navigate('/admin/resultados')}>Volver</button>
         </div>
       </header>

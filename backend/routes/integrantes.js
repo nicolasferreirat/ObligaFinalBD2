@@ -3,7 +3,7 @@ const router = express.Router();
 const pool = require('../database'); // conexión a MySQL
 
 
-// GET /integrantes → devuelve los integrantes con nombre, apellido, rol y número de lista
+// GET para traer los integrantes con nombre, apellido, rol y número de lista
 router.get('/integrantes', async (req, res) => {
     try {
       const [rows] = await pool.query(`

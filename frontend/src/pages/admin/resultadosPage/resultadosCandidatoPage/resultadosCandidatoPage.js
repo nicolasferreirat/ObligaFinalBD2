@@ -61,7 +61,7 @@ function ResultadosCandidatoPage() {
       <header className="inicio-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h2>Elecciones Presidenciales 2024</h2>
+          <h2>Elecciones Presidenciales</h2>
           <button className="volver-btn" onClick={() => navigate('/admin/resultados')}>Volver</button>
         </div>
       </header>

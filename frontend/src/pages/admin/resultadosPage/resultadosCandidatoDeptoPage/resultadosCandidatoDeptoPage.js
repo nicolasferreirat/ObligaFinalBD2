@@ -3,7 +3,7 @@ import logo from '../../../../assets/CortElecLOGO.png';
 import { useNavigate } from 'react-router-dom';
 import './resultadosCandidatoDeptoPage.css';
 
-function ResultadosCandidatoDepartamentoPage() {
+function ResultadosCandidatoDeptoPage() {
   const navigate = useNavigate();
   const [departamentos, setDepartamentos] = useState([]);
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState('');
@@ -50,7 +50,7 @@ function ResultadosCandidatoDepartamentoPage() {
       <header className="inicio-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h2>Elecciones Presidenciales 2024</h2>
+          <h2>Elecciones Presidenciales</h2>
           <button className="volver-btn" onClick={() => navigate('/admin/resultados')}>Volver</button>
         </div>
       </header>
@@ -99,4 +99,4 @@ function ResultadosCandidatoDepartamentoPage() {
   );
 }
 
-export default ResultadosCandidatoDepartamentoPage;
+export default ResultadosCandidatoDeptoPage;

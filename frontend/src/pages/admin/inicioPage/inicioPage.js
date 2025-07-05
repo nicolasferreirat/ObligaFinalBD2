@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './inicioPage.css';
+import './InicioPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
 
 function InicioPage() {
@@ -14,6 +14,21 @@ function InicioPage() {
     establecimiento: ''
   });
   const navigate = useNavigate();
+
+  // bloqueo la ida para atras en el navegador
+  useEffect(() => {
+    const bloquearAtras = (e) => {
+      e.preventDefault();
+      window.history.pushState(null, null, window.location.pathname);
+    };
+
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener('popstate', bloquearAtras);
+
+    return () => {
+      window.removeEventListener('popstate', bloquearAtras);
+    };
+  }, []);
 
   useEffect(() => {
     const verificarToken = async () => {
@@ -97,7 +112,7 @@ function InicioPage() {
       <header className="inicio-header">
         <div className="header-content">
           <img src={logo} alt="Logo" className="logo" />
-          <h2>Elecciones Presidenciales 2024</h2>
+          <h2>Elecciones Presidenciales</h2>
           <button className="salir-btn" onClick={salir}>Salir</button>
         </div>
       </header>

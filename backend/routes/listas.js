@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database'); // conexión a MySQL
 
-// GET /listas → devuelve todas las listas con el nombre del partido
+// GET obtiene todas las listas con el nombre del partido
 router.get('/listas', async (req, res) => {
   try {
     const [rows] = await pool.query(`
@@ -21,7 +21,7 @@ router.get('/listas', async (req, res) => {
   }
 });
 
-// GET /listas/partido/:id → devuelve solo las listas de un partido específico
+// GET devuelve solo las listas de un partido específico
 router.get('/listas/partido/:id', async (req, res) => {
     const partidoId = req.params.id;
   

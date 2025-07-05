@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../database'); // tu pool ya definido
-const verificarToken = require('../middleware/auth'); // si querés proteger las rutas
+const pool = require('../database'); 
+const verificarToken = require('../middleware/auth'); 
 
 // Obtener el candidato presidente ganador
 router.get('/resultados/ganador', async (req, res) => {
@@ -41,7 +41,7 @@ router.get('/resultados/ganador', async (req, res) => {
 });
 
 // Votos válidos y observados por lista
-router.get('/resultados/:idCircuito', async (req, res) => {
+router.get('/resultados/listas/:idCircuito', async (req, res) => {
   const { idCircuito } = req.params;
 
   try {
@@ -95,7 +95,7 @@ router.get('/resultados/diferentes/:idCircuito', async (req, res) => {
 });
 
 // ruta para obtener resultados por partido en un circuito específico
-router.get('/resultados/partido/:idCircuito', async (req, res) => {
+router.get('/resultados/partidos/:idCircuito', async (req, res) => {
   const { idCircuito } = req.params;
 
   try {

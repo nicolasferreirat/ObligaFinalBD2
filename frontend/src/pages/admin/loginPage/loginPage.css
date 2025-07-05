@@ -70,7 +70,7 @@
 .subtituloced {
   all: unset; 
   display: block;
-  margin-top: -4px;
+  margin-top: 20px;
   margin-bottom: 20px;
   color: #555;
   font-size: 18px !important;

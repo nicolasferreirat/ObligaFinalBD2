@@ -30,7 +30,7 @@ function LoginPage() {
       if (res.ok) {
         setMensaje(`Bienvenido presidente CI: ${data.ci}`);
         if (res.ok) {
-          localStorage.setItem('token', data.token); // Guardamos el token JWT
+          sessionStorage.setItem('token', data.token); // Guardamos el token JWT
           navigate('/admin/inicio');
         }
       } else {

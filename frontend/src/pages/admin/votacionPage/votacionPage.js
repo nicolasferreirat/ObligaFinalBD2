@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../assets/CortElecLOGO.png';
-import './VotacionPage.css';
+import './votacionPage.css';
 
 function VotacionPage() {
   const [credenciales, setCredenciales] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './InicioPage.css';
+import './inicioPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
 
 function InicioPage() {

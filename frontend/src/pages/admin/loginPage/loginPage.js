@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './LoginPage.css';
+import './loginPage.css';
 import logo from '../../../assets/CortElecLOGO.png';
 import { useNavigate } from 'react-router-dom';
 

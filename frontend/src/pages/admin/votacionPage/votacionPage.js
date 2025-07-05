@@ -103,6 +103,7 @@ function VotacionPage() {
             <tr>
               <th>Credencial</th>
               <th>Nombre</th>
+              <th>Tipo</th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +111,7 @@ function VotacionPage() {
               <tr key={i}>
                 <td>{c.serie} {c.numero}</td>
                 <td>{c.nombre} {c.apellido}</td>
+                <td>{c.tipo === 'miembro_mesa' ? 'Miembro de mesa' : c.tipo === 'policia' ? 'Policía' : 'Ciudadano'}</td>
               </tr>
             ))}
           </tbody>

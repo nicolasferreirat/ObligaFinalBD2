@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "../Styles/votationPage.css";
 import Card from "../Components/Card";
 import logo from '../assets/CortElecLOGO.png';
@@ -11,6 +12,29 @@ function VotationPage() {
   const [listasSeleccionadas, setListasSeleccionadas] = useState([]);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [forzarBlanco, setForzarBlanco] = useState(false);
+
+  // Modal de éxito
+  const [mostrarExito, setMostrarExito] = useState(false);
+  const [contador, setContador] = useState(10);
+  const navigate = useNavigate();
+
+  // Countdown para redirección
+  useEffect(() => {
+    if (mostrarExito) {
+      setContador(10);
+      const interval = setInterval(() => {
+        setContador(prev => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            navigate("/");
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [mostrarExito, navigate]);
 
   // Cargar partidos políticos
   useEffect(() => {
@@ -26,7 +50,7 @@ function VotationPage() {
     fetchPartidos();
   }, []);
 
-  // Cargar las listas (todas o por partido)
+  // Cargar listas
   useEffect(() => {
     const fetchListas = async () => {
       try {
@@ -90,7 +114,6 @@ function VotationPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ idVoto }),
         });
-        alert("✅ Voto en blanco registrado.");
       } else if (listasSeleccionadas.length === 1) {
         const endpoint = esObservado
           ? "http://localhost:4000/voto/observado"
@@ -105,6 +128,7 @@ function VotationPage() {
           }),
         });
 
+
         alert(`✅ Voto ${esObservado ? "observado" : "válido"} registrado por la lista ${listasSeleccionadas[0]}`);
       } else {
         await fetch("http://localhost:4000/voto/anulado", {
@@ -112,8 +136,9 @@ function VotationPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ idVoto }),
         });
-        alert("⚠️ Voto anulado por seleccionar más de una lista.");
       }
+
+      setMostrarExito(true);
 
       // para cmarcar el ya voto en true
       const token = sessionStorage.getItem("token");
@@ -152,7 +177,7 @@ function VotationPage() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="Logo" style={{ height: '80px', marginRight: 'auto' }} />
+        <img src={logo} alt="Logo" style={{ height: '40px', marginRight: 'auto' }} />
         <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
           <p>ELECCIONES 2025</p>
           <p>¿A QUIÉN VAS A VOTAR?</p>
@@ -209,7 +234,6 @@ function VotationPage() {
         ))}
       </div>
 
-      {/* Modal de confirmación */}
       {mostrarConfirmacion && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -231,6 +255,17 @@ function VotationPage() {
                 CANCELAR
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {mostrarExito && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div style={{ fontSize: "48px", color: "#28a745" }}>✅</div>
+            <h3>Voto exitoso</h3>
+            <p>Su voto se registró correctamente.</p>
+            <p>Será redirigido en <strong>{contador}</strong> segundos...</p>
           </div>
         </div>
       )}

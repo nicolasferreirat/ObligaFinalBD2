@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/admin/loginPage/loginPage'; 
@@ -10,8 +9,7 @@ import ResultadosPage from './pages/admin/resultadosPage/resultadosPage';
 import ResultadosListaPage from './pages/admin/resultadosPage/resultadosListaPage/resultadosListaPage';
 import ResultadosCandidatoPage from './pages/admin/resultadosPage/resultadosCandidatoPage/resultadosCandidatoPage';
 import ResultadosPartidoPage from './pages/admin/resultadosPage/resultadosPartidoPage/resultadosPartidoPage';
-import ResultadosPartidoDeptoPage from './pages/admin/resultadosPage/resultadosPartidoDeptoPage/resultadosPartidoDeptoPage';
-import ResultadosCandidatoDepartamentoPage from './pages/admin/resultadosPage/resultadosCandidatoDeptoPage/resultadosCandidatoDeptoPage';
+
 
 function App() {
   return (
@@ -30,8 +28,7 @@ function App() {
         <Route path="/admin/resultadosCircuitos/listas" element={<ResultadosListaPage />} /> -- ruta de resultados de administrador
         <Route path="/admin/resultadosCircuitos/candidatos" element={<ResultadosCandidatoPage />} /> -- ruta de resultados por candidato
         <Route path="/admin/resultadosCircuitos/partidos" element={<ResultadosPartidoPage />} /> -- ruta de resultados por partido politico
-        <Route path="/admin/resultadosPartidos/departamentos" element={<ResultadosPartidoDeptoPage />} /> -- ruta de resultados por partido politico por departamento
-        <Route path="/admin/resultadosCandidatos/departamentos" element={<ResultadosCandidatoDepartamentoPage />} /> -- ruta de resultados por candidato por departamento
+        <Route path="/votacionpage" element={<VotacionPage />} /> -- ruta de votacionPage
       </Routes>
     </Router>
   );

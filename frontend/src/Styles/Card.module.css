@@ -69,7 +69,7 @@
 
 .ActionButton {
   padding: 8px;
-  background-color: #007bff;
+  background-color: #0004e6;
   color: white;
   border: none;
   border-radius: 6px;
@@ -80,7 +80,7 @@
 }
 
 .ActionButton:hover {
-  background-color: #0056b3;
+  background-color: #0092b3;
 }
 
 .SmallButton {

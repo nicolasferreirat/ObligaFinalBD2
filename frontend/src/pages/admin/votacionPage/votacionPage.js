@@ -7,6 +7,7 @@ function VotacionPage() {
   const [credenciales, setCredenciales] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [horaActual, setHoraActual] = useState('');
+  const [errorCierre, setErrorCierre] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,6 +63,21 @@ function VotacionPage() {
 
   const confirmarCierre = async () => {
   const idCircuito = sessionStorage.getItem('idCircuito');
+
+  // hora actual en zona de Uruguay
+  /*const ahora = new Date().toLocaleTimeString('es-UY', {
+    timeZone: 'America/Montevideo',
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const [hora, minuto] = ahora.split(':').map(Number);
+
+  if (hora < 19 || (hora === 19 && minuto < 30)) {
+    setErrorCierre('No se puede cerrar el circuito antes de las 19.30.');
+    return;
+  }*/
 
   try {
     const res = await fetch(`http://localhost:4000/cerrarVotacion/${idCircuito}`, {
@@ -127,7 +143,11 @@ function VotacionPage() {
           <div className="modal">
             <p>¿Seguro que desea finalizar la votación?</p>
             <button className="confirmar" onClick={confirmarCierre}>Confirmar</button>
-            <button className="cancelar" onClick={() => setMostrarModal(false)}>Cancelar</button>
+            <button className="cancelar" onClick={() => {
+              setMostrarModal(false);
+              setErrorCierre('');
+            }}>Cancelar</button>
+            {errorCierre && <p className="error-texto">{errorCierre}</p>}
           </div>
         </div>
       )}

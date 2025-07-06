@@ -5,6 +5,7 @@ import logo from '../../../assets/CortElecLOGO.png';
 
 function InicioPage() {
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [errorHabilitacion, setErrorHabilitacion] = useState('');
   const [datosPresidente, setDatosPresidente] = useState({
     ci: '',
     nombre: '',
@@ -84,6 +85,21 @@ function InicioPage() {
   const confirmarHabilitacion = async () => {
   const idCircuito = datosPresidente.idCircuito;
 
+  // Obtener hora actual en zona de Uruguay
+  const ahora = new Date().toLocaleTimeString('es-UY', {
+    timeZone: 'America/Montevideo',
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const [hora, minuto] = ahora.split(':').map(Number);
+
+  if (hora < 8 || (hora === 8 && minuto < 30)) {
+    setErrorHabilitacion('No se puede habilitar la votación antes de las 08:30 en Uruguay.');
+    return;
+  }
+
   try {
     const res = await fetch(`http://localhost:4000/habilitarVotacion/${idCircuito}`, {
       method: 'POST'
@@ -139,7 +155,11 @@ function InicioPage() {
           <div className="modal">
             <p>¿Seguro que desea habilitar la mesa?</p>
             <button className="confirmar" onClick={confirmarHabilitacion}>Confirmar</button>
-            <button className="cancelar" onClick={() => setMostrarModal(false)}>Cancelar</button>
+            <button className="cancelar" onClick={() => {
+              setMostrarModal(false);
+              setErrorHabilitacion('');
+            }}>Cancelar</button>
+            {errorHabilitacion && <p className="error-texto">{errorHabilitacion}</p>}
           </div>
         </div>
       )}

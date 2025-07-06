@@ -206,3 +206,8 @@
 .tabla-personas tr:hover {
   background-color: #f2f8ff;
 }
+
+.error-texto {
+  margin-top: 10px;
+  font-weight: bold;
+}

@@ -180,3 +180,8 @@
   margin: 10px 0;
   color: #333;
 }
+
+.error-texto {
+  margin-top: 10px;
+  font-weight: bold;
+}

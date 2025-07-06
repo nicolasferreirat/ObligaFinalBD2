@@ -1,4 +1,3 @@
-
 CREATE TABLE Persona (
     CI VARCHAR(20) PRIMARY KEY,
     nombre VARCHAR(50),
@@ -99,7 +98,7 @@ CREATE TABLE Credencial_Civica (
     CI VARCHAR(20),
     idCircuito INT,
     yavoto BOOLEAN,
-     PRIMARY KEY (serie, numero),
+	PRIMARY KEY (serie, numero),
     FOREIGN KEY (CI) REFERENCES Persona(CI),
     FOREIGN KEY (idCircuito) REFERENCES Circuito(id)
 );
@@ -177,13 +176,8 @@ CREATE TABLE Rol_Lista_Candidato (
     FOREIGN KEY (idRol) REFERENCES Rol(id)
 );
 
-
-INSERT INTO Persona (CI, nombre, apellido, edad) VALUES
-('34523125', 'Emiliano', 'Ancheta', 35),
-('31243774', 'Juan', 'Sosa Dias', 42),
-('54365042', 'Nicolas', 'Ferreira', 29),
-('51526653', 'Luis', 'Mejia', 50),
-('54634794', 'Cristian', 'Oliva', 54),
-('54946369', 'Nicolás', 'López', 19),
-('48639847', 'Fernando', 'Luna', 18),
-('27511204', 'Sofía', 'Martínez', 21);
+CREATE TABLE EstadoVotacion (
+  idCircuito INT PRIMARY KEY,
+  habilitada BOOLEAN NOT NULL,
+  FOREIGN KEY (idCircuito) REFERENCES Circuito(id)
+);

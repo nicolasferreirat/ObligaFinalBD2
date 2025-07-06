@@ -67,6 +67,10 @@ PASOS PARA REALIZAR LA EJECUCIÓN DEL PROYECTO:
     # Frontend
     FRONTEND_PORT=3000
 
+ANTES DE EJECUTARLO:
+Si desea que en la página del admin, no lo deje cerrar la mesa al presidente antes de las 19.30 (Hora Uruguay), descomente
+de la linea 67 a la 80  del archivo \frontend\src\pages\admin\votacionPage\votacionPage.js que tiene esa validación hecha.
+(Está comentada para visualizar el funcionamiento de la página, ya que es una demo).
 
 3- EJECUTAR DOCKER COMPOSE
 
